@@ -5,6 +5,8 @@ public class Board {
     private Game game;
     private int color = 255;
     private int boxId = 0;
+    final private int BLACKBOX = 50;
+    final private int WHITEBOX = 255;
 
     public Board(Game game) {
         this.game = game;
@@ -26,12 +28,15 @@ public class Board {
         }
     }
 
+    public boolean boxSelected(Box box) {
+        return game.mouseX > box.getCol() * Game.getGAMEWIDTH() / 8 && game.mouseX < box.getCol() * Game.getGAMEWIDTH() / 8 + Game.getGAMEWIDTH() / 8
+                && game.mouseY > box.getRow() * Game.getGAMEHEIGHT() / 8 && game.mouseY < box.getRow() * Game.getGAMEHEIGHT() / 8 + Game.getGAMEHEIGHT() / 8;
+    }
+
     public void drawGrid() {
 
         for (Box box : grid) {
-            if (game.mouseX > box.getCol() * Game.getGAMEWIDTH() / 8 && game.mouseX < box.getCol() * Game.getGAMEWIDTH() / 8 + Game.getGAMEWIDTH() / 8
-                    && game.mouseY > box.getRow() * Game.getGAMEHEIGHT() / 8 && game.mouseY < box.getRow() * Game.getGAMEHEIGHT() / 8 + Game.getGAMEHEIGHT() / 8
-                    ) {
+            if (boxSelected(box)) {
                 box.setSelected(true);
             } else {
                 box.setSelected(false);
@@ -44,11 +49,19 @@ public class Board {
     }
 
     private void switchColor() {
-        if (color > 0) {
-            color = 0;
+        if (color > BLACKBOX) {
+            color = BLACKBOX;
         } else {
-            color = 255;
+            color = WHITEBOX;
         }
 
+    }
+
+
+    public void setAllBoxesUnclicked() {
+        for (Box box : grid) {
+            box.setIsClicked(false);
+
+        }
     }
 }

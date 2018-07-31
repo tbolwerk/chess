@@ -1,12 +1,13 @@
 import processing.core.PImage;
 
-public class Pawn extends Piece {
+public class Bishop extends Piece {
     private int y;
 
-    public Pawn(Game game, boolean isWhite, int boxId) {
+    public Bishop(Game game, boolean isWhite, int boxId) {
         super(game, isWhite, boxId);
         drawPiece();
     }
+
 
     public void drawPiece() {
         if (!getIsWhite()) {
@@ -14,14 +15,13 @@ public class Pawn extends Piece {
         } else {
             y = 0;
         }
-        PImage pieceImage = game.getImageLoader().getImage((2000 / 6) * 5, y, 2000 / 6, 667 / 2);
+        PImage pieceImage = game.getImageLoader().getImage((2000 / 6) * 2, y, 2000 / 6, 667 / 2);
         super.setPieceImage(pieceImage);
-        super.setPiece('P');
+        setPiece('B');
     }
-
 
     @Override
     public String toString() {
-        return "Pawn";
+        return "Bischop";
     }
 }

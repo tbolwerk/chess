@@ -5,24 +5,33 @@ public class Box {
     private int row;
     private int color;
     private int selectedColor = 125;
+    int drawColor;
     private boolean isSelected;
-
+    private int clickedColor = 200;
+    private boolean isClicked;
+    private Piece piece = null;
     public Box(Game game, int boxId, int row, int col, int color) {
         this.game = game;
         this.boxId = boxId;
         this.col = col;
         this.row = row;
         this.color = color;
+        this.piece = null;
         drawBox();
 
     }
 
+
     public void drawBox() {
+        if (isClicked) {
+            drawColor = clickedColor;
+        } else
         if (isSelected) {
-            game.fill(selectedColor);
+            drawColor = selectedColor;
         } else {
-            game.fill(color);
+            drawColor = color;
         }
+        game.fill(drawColor);
         game.rect(boxWidth() * col, boxHeight() * row, boxWidth(), boxHeight());
         debugBox();
 
@@ -56,18 +65,39 @@ public class Box {
         isSelected = selected;
     }
 
+    public boolean getIsClicked() {
+        return isClicked;
+    }
+
+    public void setIsClicked(boolean clicked) {
+        isClicked = clicked;
+    }
+
     public void setSelectedColor(int selectedColor) {
         this.selectedColor = selectedColor;
     }
 
     public void debugBox() {
-        if (isSelected) {
-            System.out.println(boxId);
+        if (isSelected && getPiece() != null) {
+            System.out.println(piece.toString());
         }
     }
 
+    public Piece getPiece() {
+        return piece;
+    }
+
     public void setPiece(Piece piece) {
+        this.piece = piece;
         if (piece.getBoxId() == boxId)
-            piece.drawPiece(boxWidth() * col, boxHeight() + boxHeight() * row);
+            piece.drawPiece(boxWidth() * col, boxHeight() * row);
+    }
+
+    public void unSetPiece() {
+        this.piece = null;
+    }
+
+    public int getBoxId() {
+        return boxId;
     }
 }
