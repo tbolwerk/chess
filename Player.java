@@ -8,6 +8,8 @@ public class Player {
     private boolean isBlack;
     private boolean isWhite;
 
+    private boolean isTurn;
+
 
     public Player(Game game, int color, boolean isWhite) {
         this.game = game;
@@ -15,9 +17,11 @@ public class Player {
         if (isWhite) {
             this.isBlack = false;
             this.isWhite = true;
+            this.isTurn = true;
         } else {
             this.isBlack = true;
             this.isWhite = false;
+            this.isTurn = false;
         }
         initPieces();
     }
@@ -62,7 +66,7 @@ public class Player {
         }
     }
 
-   
+
     public int getColor() {
         return color;
     }
@@ -89,5 +93,17 @@ public class Player {
 
     public void setWhite(boolean white) {
         isWhite = white;
+    }
+
+    public void setTurn(boolean turn) {
+        isTurn = turn;
+    }
+
+    public boolean getIsTurn() {
+        return isTurn;
+    }
+
+    public void removePiece(Piece piece) {
+        pieces.remove(piece);
     }
 }

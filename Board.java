@@ -8,6 +8,8 @@ public class Board {
     final private int BLACKBOX = 50;
     final private int WHITEBOX = 255;
 
+    private ArrayList<Box> optionalBoxes = new ArrayList<>();
+
     public Board(Game game) {
         this.game = game;
     }
@@ -46,10 +48,11 @@ public class Board {
 
         }
 
+
     }
 
     private void switchColor() {
-        if (color > BLACKBOX) {
+        if (color == WHITEBOX) {
             color = BLACKBOX;
         } else {
             color = WHITEBOX;

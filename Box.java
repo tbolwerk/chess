@@ -1,14 +1,18 @@
 public class Box {
     private Game game;
     private int boxId;
+
     private int col;
     private int row;
     private int color;
     private int selectedColor = 125;
-    int drawColor;
-    private boolean isSelected;
     private int clickedColor = 200;
+    private int optionColor = 0x00FF7F;
+    private int drawColor;
+    private boolean isSelected;
     private boolean isClicked;
+    private boolean isOption;
+
     private Piece piece = null;
     public Box(Game game, int boxId, int row, int col, int color) {
         this.game = game;
@@ -25,9 +29,11 @@ public class Box {
     public void drawBox() {
         if (isClicked) {
             drawColor = clickedColor;
-        } else
-        if (isSelected) {
+        } else if (isSelected) {
             drawColor = selectedColor;
+        } else if (isOption) {
+            drawColor = optionColor;
+
         } else {
             drawColor = color;
         }
@@ -73,12 +79,16 @@ public class Box {
         isClicked = clicked;
     }
 
+    public void setOption(boolean isOption) {
+        this.isOption = isOption;
+    }
+
     public void setSelectedColor(int selectedColor) {
         this.selectedColor = selectedColor;
     }
 
     public void debugBox() {
-        if (isSelected && getPiece() != null) {
+        if (isSelected && getPiece() != null || isClicked && getPiece() != null) {
             System.out.println(piece.toString());
         }
     }
@@ -89,6 +99,7 @@ public class Box {
 
     public void setPiece(Piece piece) {
         this.piece = piece;
+
         if (piece.getBoxId() == boxId)
             piece.drawPiece(boxWidth() * col, boxHeight() * row);
     }
@@ -100,4 +111,6 @@ public class Box {
     public int getBoxId() {
         return boxId;
     }
+
+
 }
