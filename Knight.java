@@ -3,9 +3,25 @@ import processing.core.PImage;
 public class Knight extends Piece {
     private int y;
 
-    public Knight(Game game, boolean isWhite, int boxId) {
-        super(game, isWhite, boxId);
+    public Knight(Game game, Player player, boolean isWhite, int boxId) {
+        super(game, player, isWhite, boxId);
         drawPiece();
+    }
+
+    @Override
+    public Enum<Directions> horizontalDirections() {
+        return null;
+    }
+
+    @Override
+    public Enum<Directions> verticalDirections() {
+        return null;
+    }
+
+
+    @Override
+    public boolean validateMove() {
+        return false;
     }
 
 

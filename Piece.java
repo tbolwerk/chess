@@ -7,11 +7,13 @@ public abstract class Piece {
     private char pieceName = 'p';
     private PImage pieceImage = null;
     private int boxId;
+    private Player player;
 
 
-    public Piece(Game game, boolean isWhite, int boxId) {
+    public Piece(Game game, Player player, boolean isWhite, int boxId) {
 
         this.game = game;
+        this.player = player;
         this.isWhite = isWhite;
         this.boxId = boxId;
 
@@ -46,4 +48,13 @@ public abstract class Piece {
     }
 
 
+    public abstract Enum<Directions> horizontalDirections();
+
+    public abstract Enum<Directions> verticalDirections();
+
+    public abstract boolean validateMove();
+
+    public Player getPlayer() {
+        return player;
+    }
 }

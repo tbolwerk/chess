@@ -1,5 +1,4 @@
 import processing.core.PApplet;
-import processing.core.PImage;
 
 import java.util.ArrayList;
 
@@ -88,7 +87,8 @@ public class Game extends PApplet {
             newBoxId = box.getBoxId();
         }
         for (Box box : clickedBoxes) {
-            if (checkIsTurn() && box.getPiece() != null && gameRules()) {
+            if (box.getPiece() != null && box.getPiece().validateMove()) {
+                if (checkIsTurn())
                 box.getPiece().setBoxId(newBoxId);
                 box.unSetPiece();
             }
@@ -109,7 +109,7 @@ public class Game extends PApplet {
         return false;
     }
 
-    private void removePiece() {
+    public void removePiece() {
         //checks piece for color
         if (clickedBoxes.get(0).getPiece() != null && clickedBoxes.get(1).getPiece() != null && clickedBoxes.get(0).getPiece().getIsWhite() != clickedBoxes.get(1).getPiece().getIsWhite()) {
             if (getPlayers().get(0).getPieces().contains(clickedBoxes.get(1).getPiece())) {
@@ -130,39 +130,8 @@ public class Game extends PApplet {
         return imageLoader;
     }
 
-    private boolean gameRules() {
 
-
-        //checks movement pawn
-        if (!clickedBoxes.get(0).getPiece().getIsWhite() && clickedBoxes.get(0).getPiece() instanceof Pawn) {
-            if (clickedBoxes.get(0).getBoxId() < clickedBoxes.get(1).getBoxId() && clickedBoxes.get(1).getBoxId() == clickedBoxes.get(0).getBoxId() + 8 && clickedBoxes.get(1).getPiece() == null) {
-
-                return true;
-            }
-            if (clickedBoxes.get(0).getBoxId() < clickedBoxes.get(1).getBoxId() && clickedBoxes.get(1).getBoxId() == clickedBoxes.get(0).getBoxId() + 7 && clickedBoxes.get(1).getPiece() != null) {
-                removePiece();
-                return true;
-            }
-            if (clickedBoxes.get(0).getBoxId() < clickedBoxes.get(1).getBoxId() && clickedBoxes.get(1).getBoxId() == clickedBoxes.get(0).getBoxId() + 9 && clickedBoxes.get(1).getPiece() != null) {
-                removePiece();
-                return true;
-            }
-        }
-        if (clickedBoxes.get(0).getPiece().getIsWhite() && clickedBoxes.get(0).getPiece() instanceof Pawn) {
-            if (clickedBoxes.get(0).getBoxId() > clickedBoxes.get(1).getBoxId() && clickedBoxes.get(1).getBoxId() == clickedBoxes.get(0).getBoxId() - 8 && clickedBoxes.get(1).getPiece() == null) {
-
-                return true;
-            }
-            if (clickedBoxes.get(0).getBoxId() > clickedBoxes.get(1).getBoxId() && clickedBoxes.get(1).getBoxId() == clickedBoxes.get(0).getBoxId() - 7 && clickedBoxes.get(1).getPiece() != null) {
-                removePiece();
-                return true;
-            }
-            if (clickedBoxes.get(0).getBoxId() > clickedBoxes.get(1).getBoxId() && clickedBoxes.get(1).getBoxId() == clickedBoxes.get(0).getBoxId() - 9 && clickedBoxes.get(1).getPiece() != null) {
-                removePiece();
-                return true;
-            }
-        }
-
-        return false;
+    public ArrayList<Box> getClickedBoxes() {
+        return clickedBoxes;
     }
 }

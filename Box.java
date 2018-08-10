@@ -39,7 +39,7 @@ public class Box {
         }
         game.fill(drawColor);
         game.rect(boxWidth() * col, boxHeight() * row, boxWidth(), boxHeight());
-        debugBox();
+//        debugBox();
 
 //        game.fill(125);
 //        game.text(boxId,boxWidth()*col,boxHeight()+boxHeight()*row);

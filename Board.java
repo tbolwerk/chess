@@ -67,4 +67,55 @@ public class Board {
 
         }
     }
+
+
+    public static ArrayList<Box> path(Box startBox, Box endBox) {//parameters for starting box and end box of 2 given inputs
+        ArrayList<Box> path = new ArrayList<>();
+        int startX = startBox.getCol(), startY = startBox.getRow();
+        int endX = endBox.getCol(), endY = endBox.getRow();
+
+//        System.out.println(startBox.getPiece().horizontalDirections());
+//        System.out.println(startBox.getPiece().verticalDirections());
+
+        if (startBox.getPiece().horizontalDirections() != null && startBox.getPiece().horizontalDirections() == Directions.RIGHT) {
+            for (Box box : getGrid()) {
+                if (box.getRow() == startY && box.getRow() == endY) {//if vertical is same
+                    if (box.getCol() > startX && box.getCol() < endX) {//if horizontal is incrementing between start and endpoint
+                        path.add(box);
+                    }
+                }
+            }
+        }
+
+        if (startBox.getPiece().horizontalDirections() != null && startBox.getPiece().horizontalDirections() == Directions.LEFT) {
+            for (Box box : getGrid()) {
+                if (box.getRow() == startY && box.getRow() == endY) {//if vertical is same
+                    if (box.getCol() < startX && box.getCol() > endX) {//if horizontal is decrementing between start and endpoint
+                        path.add(box);
+                    }
+                }
+            }
+        }
+        if (startBox.getPiece().verticalDirections() != null && startBox.getPiece().verticalDirections() == Directions.UP) {
+            for (Box box : getGrid()) {
+                if (box.getRow() < startY && box.getRow() > endY) {//if vertical is decrementing between start and endpoint
+                    if (box.getCol() == startX && box.getCol() == endX) {//if horizontal is same
+                        path.add(box);
+                    }
+                }
+            }
+        }
+        if (startBox.getPiece().verticalDirections() != null && startBox.getPiece().verticalDirections() == Directions.DOWN) {
+            for (Box box : getGrid()) {
+                if (box.getRow() > startY && box.getRow() < endY) {//if vertical is incrementing between start and endpoint
+                    if (box.getCol() == startX && box.getCol() == endX) {//if horizontal is same
+                        path.add(box);
+                    }
+                }
+            }
+        }
+        return path;
+    }
+
+
 }

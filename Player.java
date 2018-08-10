@@ -29,30 +29,30 @@ public class Player {
     private void initPieces() {
         if (isBlack) {
             for (int i = 8; i < 8 + PAWNS; i++) {
-                pieces.add(new Pawn(game, false, i));
+                pieces.add(new Pawn(game, this, false, i));
             }
-            pieces.add(new Rook(game, false, 0));
-            pieces.add(new Knight(game, false, 1));
-            pieces.add(new Bishop(game, false, 2));
-            pieces.add(new King(game, false, 3));
-            pieces.add(new Queen(game, false, 4));
-            pieces.add(new Bishop(game, false, 5));
-            pieces.add(new Knight(game, false, 6));
-            pieces.add(new Rook(game, false, 7));
+            pieces.add(new Rook(game, this, false, 0));
+            pieces.add(new Knight(game, this, false, 1));
+            pieces.add(new Bishop(game, this, false, 2));
+            pieces.add(new King(game, this, false, 3));
+            pieces.add(new Queen(game, this, false, 4));
+            pieces.add(new Bishop(game, this, false, 5));
+            pieces.add(new Knight(game, this, false, 6));
+            pieces.add(new Rook(game, this, false, 7));
 
         }
         if (isWhite) {
             for (int i = 48; i < 48 + PAWNS; i++) {
-                pieces.add(new Pawn(game, true, i));
+                pieces.add(new Pawn(game, this, true, i));
             }
-            pieces.add(new Rook(game, true, 56));
-            pieces.add(new Knight(game, true, 57));
-            pieces.add(new Bishop(game, true, 58));
-            pieces.add(new King(game, true, 59));
-            pieces.add(new Queen(game, true, 60));
-            pieces.add(new Bishop(game, true, 61));
-            pieces.add(new Knight(game, true, 62));
-            pieces.add(new Rook(game, true, 63));
+            pieces.add(new Rook(game, this, true, 56));
+            pieces.add(new Knight(game, this, true, 57));
+            pieces.add(new Bishop(game, this, true, 58));
+            pieces.add(new King(game, this, true, 59));
+            pieces.add(new Queen(game, this, true, 60));
+            pieces.add(new Bishop(game, this, true, 61));
+            pieces.add(new Knight(game, this, true, 62));
+            pieces.add(new Rook(game, this, true, 63));
         }
 
     }
