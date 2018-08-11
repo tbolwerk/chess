@@ -9,13 +9,8 @@ public class Knight extends Piece {
     }
 
     @Override
-    public Enum<Directions> horizontalDirections() {
-        return null;
-    }
-
-    @Override
-    public Enum<Directions> verticalDirections() {
-        return null;
+    public boolean checkForCapture() {
+        return false;
     }
 
 

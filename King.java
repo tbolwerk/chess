@@ -1,5 +1,7 @@
 import processing.core.PImage;
 
+import java.util.ArrayList;
+
 public class King extends Piece {
     private int y;
 
@@ -9,18 +11,36 @@ public class King extends Piece {
     }
 
     @Override
-    public Enum<Directions> horizontalDirections() {
-        return null;
+    public boolean checkForCapture() {
+        ArrayList<Box> clickedBoxes = game.getClickedBoxes();
+        if (clickedBoxes.get(1).getPiece() != null && clickedBoxes.get(1).getPiece().getIsWhite() != clickedBoxes.get(0).getPiece().getIsWhite()) {
+            game.removePiece();
+            return true;
+        }
+        return true;
     }
 
-    @Override
-    public Enum<Directions> verticalDirections() {
-        return null;
-    }
 
     @Override
     public boolean validateMove() {
-        return false;
+        ArrayList<Box> clickedBoxes = game.getClickedBoxes();
+        if (!clickedBoxes.get(0).getPiece().getPlayer().getIsTurn()) {
+            return false;
+        }
+        if (clickedBoxes.get(1).getPiece() != null && clickedBoxes.get(0).getPiece().getIsWhite() == clickedBoxes.get(1).getPiece().getIsWhite()) {
+            return false;
+        }
+        int xStart = clickedBoxes.get(0).getCol();
+        int yStart = clickedBoxes.get(0).getRow();
+        int xEnd = clickedBoxes.get(1).getCol();
+        int yEnd = clickedBoxes.get(1).getRow();
+        int xDif = Math.abs(xStart - xEnd);
+        int yDif = Math.abs(yStart - yEnd);
+        if (xDif > 1 || yDif > 1) {
+
+            return false;
+        }
+        return checkForCapture();
     }
 
 

@@ -16,13 +16,8 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public Enum<Directions> horizontalDirections() {
-        return null;
-    }
-
-    @Override
-    public Enum<Directions> verticalDirections() {
-        return null;
+    public boolean checkForCapture() {
+        return false;
     }
 
 
@@ -30,9 +25,10 @@ public class Pawn extends Piece {
     public boolean validateMove() {
         ArrayList<Box> clickedBoxes = game.getClickedBoxes();
 
-        //checks movement pawn
+        //checks if piece from player and turn is true
         if (!clickedBoxes.get(0).getPiece().getPlayer().getIsTurn())
             return false;
+        //checks movement pawn
         if (!clickedBoxes.get(0).getPiece().getIsWhite() && clickedBoxes.get(0).getPiece() instanceof Pawn) {
 
             if (clickedBoxes.get(0).getBoxId() < clickedBoxes.get(1).getBoxId() && clickedBoxes.get(1).getBoxId() == clickedBoxes.get(0).getBoxId() + 16 && clickedBoxes.get(0).getBoxId() < 16 && clickedBoxes.get(1).getPiece() == null) {

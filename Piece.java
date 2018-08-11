@@ -1,5 +1,7 @@
 import processing.core.PImage;
 
+import java.util.ArrayList;
+
 public abstract class Piece {
 
     protected Game game;
@@ -47,10 +49,34 @@ public abstract class Piece {
         this.boxId = boxId;
     }
 
+    public abstract boolean checkForCapture();
 
-    public abstract Enum<Directions> horizontalDirections();
+    public Enum<Directions> horizontalDirections() {
+        ArrayList<Box> clickedBoxes = game.getClickedBoxes();
+        int row = clickedBoxes.get(0).getRow() - clickedBoxes.get(1).getRow();
+        int column = clickedBoxes.get(0).getCol() - clickedBoxes.get(1).getCol();
 
-    public abstract Enum<Directions> verticalDirections();
+        if (column < 0) {
+            return Directions.RIGHT;
+        } else if (column > 0) {
+            return Directions.LEFT;
+        }
+
+        return null;
+    }
+
+
+    public Enum<Directions> verticalDirections() {
+        ArrayList<Box> clickedBoxes = game.getClickedBoxes();
+        int column = clickedBoxes.get(0).getCol() - clickedBoxes.get(1).getCol();
+        int row = clickedBoxes.get(0).getRow() - clickedBoxes.get(1).getRow();
+        if (row < 0) {
+            return Directions.DOWN;
+        } else if (row > 0) {
+            return Directions.UP;
+        }
+        return null;
+    }
 
     public abstract boolean validateMove();
 

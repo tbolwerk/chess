@@ -109,6 +109,10 @@ public class Game extends PApplet {
         return false;
     }
 
+    public Board getBoard() {
+        return board;
+    }
+
     public void removePiece() {
         //checks piece for color
         if (clickedBoxes.get(0).getPiece() != null && clickedBoxes.get(1).getPiece() != null && clickedBoxes.get(0).getPiece().getIsWhite() != clickedBoxes.get(1).getPiece().getIsWhite()) {

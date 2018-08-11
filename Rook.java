@@ -11,31 +11,8 @@ public class Rook extends Piece {
     }
 
     @Override
-    public Enum<Directions> horizontalDirections() {
-        ArrayList<Box> clickedBoxes = game.getClickedBoxes();
-        int row = clickedBoxes.get(0).getRow() - clickedBoxes.get(1).getRow();
-        int column = clickedBoxes.get(0).getCol() - clickedBoxes.get(1).getCol();
-
-        if (column < 0 && row == 0) {
-            return Directions.RIGHT;
-        } else if (column > 0 && row == 0) {
-            return Directions.LEFT;
-        }
-
-        return null;
-    }
-
-    @Override
-    public Enum<Directions> verticalDirections() {
-        ArrayList<Box> clickedBoxes = game.getClickedBoxes();
-        int column = clickedBoxes.get(0).getCol() - clickedBoxes.get(1).getCol();
-        int row = clickedBoxes.get(0).getRow() - clickedBoxes.get(1).getRow();
-        if (row < 0 && column == 0) {
-            return Directions.DOWN;
-        } else if (row > 0 && column == 0) {
-            return Directions.UP;
-        }
-        return null;
+    public boolean checkForCapture() {
+        return false;
     }
 
 
@@ -52,7 +29,7 @@ public class Rook extends Piece {
         if (clickedBoxes.get(0).getCol() == clickedBoxes.get(1).getCol() && clickedBoxes.get(0).getRow() != clickedBoxes.get(1).getRow()) {
             //checks for pieces in path
 //            System.out.println(Board.path(clickedBoxes.get(0),clickedBoxes.get(1)).size());
-            for (Box box : Board.path(clickedBoxes.get(0), clickedBoxes.get(1))) {
+            for (Box box : game.getBoard().straightPath(clickedBoxes.get(0), clickedBoxes.get(1))) {
                 if (box.getPiece() != null) {
 //                System.out.println(box.getPiece().toString());
                     return false;
@@ -67,7 +44,7 @@ public class Rook extends Piece {
             //checks if moved up or down
         } else if (clickedBoxes.get(0).getCol() != clickedBoxes.get(1).getCol() && clickedBoxes.get(0).getRow() == clickedBoxes.get(1).getRow()) {
             //checks for pieces in path
-            for (Box box : Board.path(clickedBoxes.get(0), clickedBoxes.get(1))) {
+            for (Box box : game.getBoard().straightPath(clickedBoxes.get(0), clickedBoxes.get(1))) {
                 if (box.getPiece() != null) {
                     return false;
                 }

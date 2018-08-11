@@ -68,8 +68,67 @@ public class Board {
         }
     }
 
+    public ArrayList<Box> diagonalPath(Box startBox, Box endBox) {
+        ArrayList<Box> path = new ArrayList<>();
+        int startX = startBox.getCol(), startY = startBox.getRow();
+        int endX = endBox.getCol(), endY = endBox.getRow();
+        int difX;
+        int difY;
+        if (startBox.getPiece().horizontalDirections() != null && startBox.getPiece().horizontalDirections() == Directions.RIGHT) {
+            if (startBox.getPiece().verticalDirections() != null && startBox.getPiece().verticalDirections() == Directions.UP) {
+                for (Box box : getGrid()) {
+                    if (box.getCol() > startX && box.getCol() < endX && box.getRow() < startY && box.getRow() > endY) {
+                        difX = Math.abs(box.getCol() - startX);
+                        difY = Math.abs(box.getRow() - startY);
+                        if (difX == difY) {
+                            path.add(box);
+                        }
+                    }
+                }
+            } else if (startBox.getPiece().verticalDirections() != null && startBox.getPiece().verticalDirections() == Directions.DOWN) {
+                for (Box box : getGrid()) {
+                    if (box.getCol() > startX && box.getCol() < endX && box.getRow() > startY && box.getRow() < endY) {
+                        difX = Math.abs(box.getCol() - startX);
+                        difY = Math.abs(box.getRow() - startY);
+                        if (difX == difY) {
+                            path.add(box);
+                        }
 
-    public static ArrayList<Box> path(Box startBox, Box endBox) {//parameters for starting box and end box of 2 given inputs
+                    }
+                }
+            }
+        } else if (startBox.getPiece().horizontalDirections() != null && startBox.getPiece().horizontalDirections() == Directions.LEFT) {
+            if (startBox.getPiece().verticalDirections() != null && startBox.getPiece().verticalDirections() == Directions.UP) {
+                for (Box box : getGrid()) {
+                    if (box.getCol() < startX && box.getCol() > endX && box.getRow() < startY && box.getRow() > endY) {
+                        difX = Math.abs(box.getCol() - startX);
+                        difY = Math.abs(box.getRow() - startY);
+                        if (difX == difY) {
+                            path.add(box);
+                        }
+
+                    }
+                }
+            } else if (startBox.getPiece().verticalDirections() != null && startBox.getPiece().verticalDirections() == Directions.DOWN) {
+                for (Box box : getGrid()) {
+                    if (box.getCol() < startX && box.getCol() > endX && box.getRow() > startY && box.getRow() < endY) {
+                        difX = Math.abs(box.getCol() - startX);
+                        difY = Math.abs(box.getRow() - startY);
+                        if (difX == difY) {
+                            path.add(box);
+                        }
+
+                    }
+                }
+            }
+        }
+
+        return path;
+
+    }
+
+
+    public ArrayList<Box> straightPath(Box startBox, Box endBox) {//parameters for starting box and end box of 2 given inputs
         ArrayList<Box> path = new ArrayList<>();
         int startX = startBox.getCol(), startY = startBox.getRow();
         int endX = endBox.getCol(), endY = endBox.getRow();
