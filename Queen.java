@@ -28,7 +28,7 @@ public class Queen extends Piece {
         ArrayList<Box> clickedBoxes = game.getClickedBoxes();
         int column = Math.abs(clickedBoxes.get(0).getCol() - clickedBoxes.get(1).getCol());
         int row = Math.abs(clickedBoxes.get(0).getRow() - clickedBoxes.get(1).getRow());
-        if (!clickedBoxes.get(0).getPiece().getPlayer().getIsTurn()) {
+        if (!clickedBoxes.get(0).getPiece().getPlayer().getIsTurn() && clickedBoxes.get(0).getPiece() instanceof Queen) {
             return false;
         }
         if (clickedBoxes.get(1).getPiece() != null && clickedBoxes.get(0).getPiece().getIsWhite() == clickedBoxes.get(1).getPiece().getIsWhite()) {

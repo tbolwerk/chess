@@ -26,7 +26,7 @@ public class Pawn extends Piece {
         ArrayList<Box> clickedBoxes = game.getClickedBoxes();
 
         //checks if piece from player and turn is true
-        if (!clickedBoxes.get(0).getPiece().getPlayer().getIsTurn())
+        if (!clickedBoxes.get(0).getPiece().getPlayer().getIsTurn() && clickedBoxes.get(0).getPiece() instanceof Pawn)
             return false;
         //checks movement pawn
         if (!clickedBoxes.get(0).getPiece().getIsWhite() && clickedBoxes.get(0).getPiece() instanceof Pawn) {

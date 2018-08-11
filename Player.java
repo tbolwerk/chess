@@ -7,7 +7,7 @@ public class Player {
     private Game game;
     private boolean isBlack;
     private boolean isWhite;
-
+    private String playerName;
     private boolean isTurn;
 
 
@@ -15,10 +15,12 @@ public class Player {
         this.game = game;
         this.color = color;
         if (isWhite) {
+            this.playerName = "White";
             this.isBlack = false;
             this.isWhite = true;
             this.isTurn = true;
         } else {
+            this.playerName = "Black";
             this.isBlack = true;
             this.isWhite = false;
             this.isTurn = false;
@@ -104,6 +106,14 @@ public class Player {
     }
 
     public void removePiece(Piece piece) {
+        if (piece instanceof King) {
+            game.setCurrentState(State.GAME_OVER);
+        }
         pieces.remove(piece);
+    }
+
+    @Override
+    public String toString() {
+        return playerName;
     }
 }

@@ -26,11 +26,11 @@ public class Knight extends Piece {
     public boolean validateMove() {
         Point[] cords = new Point[8];
         cords[0] = new Point(-1, -2);
-        cords[1] = new Point(1, -2);
+        cords[1] = new Point(-1, 2);
         cords[2] = new Point(2, -1);
         cords[3] = new Point(2, 1);
         cords[4] = new Point(1, 2);
-        cords[5] = new Point(-1, -2);
+        cords[5] = new Point(1, -2);
         cords[6] = new Point(-2, -1);
         cords[7] = new Point(-2, 1);
         ArrayList<Box> clickedBoxes = game.getClickedBoxes();

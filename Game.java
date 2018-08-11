@@ -4,8 +4,11 @@ import java.util.ArrayList;
 
 
 public class Game extends PApplet {
-    final private static float GAMEWIDTH = 700;
+    final private static float GAMEWIDTH = 500;
     final private static float GAMEHEIGHT = GAMEWIDTH;
+
+    private State currentState = State.MENU;
+    private Button button;
 
     private static ArrayList<Player> players = new ArrayList<Player>();
 
@@ -41,47 +44,92 @@ public class Game extends PApplet {
     }
 
     public void draw() {
-        board.drawGrid();
+        if (currentState == State.MENU) {
+            button.drawRectangle();
+        }
+        if (currentState == State.SETUP) {
+            board.drawGrid();
+            player.drawPieces();
+            player2.drawPieces();
+        }
+        if (currentState == State.GAME_OVER) {
+            background(0);
+            fill(255);
+            textSize(30);
+            button.drawRectangle();
+            text("Game over " + getWinner() + " won!", (getGAMEWIDTH() / 3) - (getGAMEWIDTH() / 3) / 2, getGAMEHEIGHT() / 3);
 
-        player.drawPieces();
-        player2.drawPieces();
+        }
     }
 
+
     public void setup() {
-        background(255);
-        board = new Board(this);
-        board.initGrid();
-        imageLoader = new ImageLoader(this, "pieces/chess_pieces.png");
-        player = new Player(this, 125, true);
-        player2 = new Player(this, 75, false);
-        players.add(player);
-        players.add(player2);
+        background(244, 161, 66);
+        if (currentState == State.MENU) {
+            button = new Button(this, (int) getGAMEWIDTH() / 2 - ((int) (getGAMEWIDTH() / 3) / 2), (int) getGAMEHEIGHT() / 2, (int) getGAMEHEIGHT() / 3, 30);
+            button.setColor(100);
+            button.setTextColor(255);
+            button.setSelectColor(123);
+            button.setText("Start Game");
+        } else if (currentState == State.GAME_OVER) {
+            button.setText("New Game");
+        }
+
+
+        if (currentState == State.SETUP) {
+            board = new Board(this);
+            board.initGrid();
+            imageLoader = new ImageLoader(this, "pieces/chess_pieces.png");
+            player = new Player(this, 125, true);
+            player2 = new Player(this, 75, false);
+            players.add(player);
+            players.add(player2);
+        }
+
+    }
+
+    @Override
+    public void mouseClicked() {
+        if (currentState != State.SETUP && currentState != State.GAME_OVER) {
+            currentState = State.SETUP;
+            setup();
+        } else if (currentState == State.GAME_OVER) {
+            setup();
+            if (button.overRect()) {
+                currentState = State.MENU;
+            }
+        } else if (currentState == State.MENU) {
+            setup();
+        }
+
 
     }
 
     @Override
     public void mousePressed() {
 
-        for (Box box : Board.getGrid()) {
-            if (board.boxSelected(box) && box.getPiece() != null) {
-                box.setIsClicked(true);
-                clickedBoxes.add(box);
-            } else if (clickedBoxes.size() > 0 && board.boxSelected(box)) {
-                box.setIsClicked(true);
-                clickedBoxes.add(box);
+        if (currentState == State.SETUP) {
+            for (Box box : Board.getGrid()) {
+                if (board.boxSelected(box) && box.getPiece() != null) {
+                    box.setIsClicked(true);
+                    clickedBoxes.add(box);
+                } else if (clickedBoxes.size() > 0 && board.boxSelected(box)) {
+                    box.setIsClicked(true);
+                    clickedBoxes.add(box);
+                }
             }
-        }
 
 
-        if (clickedBoxes.size() > 1) {
-            movePiece();
-            board.setAllBoxesUnclicked();
-            clickedBoxes.clear();
+            if (clickedBoxes.size() > 1) {
+                movePiece();
+                board.setAllBoxesUnclicked();
+                clickedBoxes.clear();
+            }
         }
 
     }
 
-    public void movePiece() {
+    private void movePiece() {
         int newBoxId = 0;
         for (Box box : clickedBoxes) {
             newBoxId = box.getBoxId();
@@ -116,16 +164,10 @@ public class Game extends PApplet {
     public void removePiece() {
         //checks piece for color
         if (clickedBoxes.get(0).getPiece() != null && clickedBoxes.get(1).getPiece() != null && clickedBoxes.get(0).getPiece().getIsWhite() != clickedBoxes.get(1).getPiece().getIsWhite()) {
-            if (getPlayers().get(0).getPieces().contains(clickedBoxes.get(1).getPiece())) {
-
-                getPlayers().get(0).getPieces().remove(clickedBoxes.get(1).getPiece());
-                clickedBoxes.get(1).unSetPiece();
-            } else if (getPlayers().get(1).getPieces().contains(clickedBoxes.get(1).getPiece())) {
-
-                getPlayers().get(1).getPieces().remove(clickedBoxes.get(1).getPiece());
+            if (clickedBoxes.get(0).getPiece().getPlayer().getIsTurn()) {
+                clickedBoxes.get(1).getPiece().getPlayer().removePiece(clickedBoxes.get(1).getPiece());
                 clickedBoxes.get(1).unSetPiece();
             }
-
         }
     }
 
@@ -137,5 +179,21 @@ public class Game extends PApplet {
 
     public ArrayList<Box> getClickedBoxes() {
         return clickedBoxes;
+    }
+
+    public void setCurrentState(State currentState) {
+        this.currentState = currentState;
+    }
+
+    public String getWinner() {
+        String winner = "Draw";
+        for (Player player : getPlayers()) {
+            for (Piece piece : player.getPieces()) {
+                if (piece instanceof King) {
+                    winner = player.toString();
+                }
+            }
+        }
+        return winner;
     }
 }

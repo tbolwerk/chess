@@ -24,7 +24,7 @@ public class King extends Piece {
     @Override
     public boolean validateMove() {
         ArrayList<Box> clickedBoxes = game.getClickedBoxes();
-        if (!clickedBoxes.get(0).getPiece().getPlayer().getIsTurn()) {
+        if (!clickedBoxes.get(0).getPiece().getPlayer().getIsTurn() && clickedBoxes.get(0).getPiece() instanceof King) {
             return false;
         }
         if (clickedBoxes.get(1).getPiece() != null && clickedBoxes.get(0).getPiece().getIsWhite() == clickedBoxes.get(1).getPiece().getIsWhite()) {
