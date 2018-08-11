@@ -10,37 +10,28 @@ public class King extends Piece {
         drawPiece();
     }
 
-    @Override
-    public boolean checkForCapture() {
-        ArrayList<Box> clickedBoxes = game.getClickedBoxes();
-        if (clickedBoxes.get(1).getPiece() != null && clickedBoxes.get(1).getPiece().getIsWhite() != clickedBoxes.get(0).getPiece().getIsWhite()) {
-            game.removePiece();
-            return true;
-        }
-        return true;
-    }
-
 
     @Override
-    public boolean validateMove() {
-        ArrayList<Box> clickedBoxes = game.getClickedBoxes();
-        if (!clickedBoxes.get(0).getPiece().getPlayer().getIsTurn() && clickedBoxes.get(0).getPiece() instanceof King) {
+    public boolean validateMove(Box startBox, Box endBox) {
+        if (endBox.getPiece() != null && startBox.getPiece().getIsWhite() == endBox.getPiece().getIsWhite()) {
             return false;
         }
-        if (clickedBoxes.get(1).getPiece() != null && clickedBoxes.get(0).getPiece().getIsWhite() == clickedBoxes.get(1).getPiece().getIsWhite()) {
+
+
+        if (endBox.getPiece() != null && startBox.getPiece().getIsWhite() == endBox.getPiece().getIsWhite()) {
             return false;
         }
-        int xStart = clickedBoxes.get(0).getCol();
-        int yStart = clickedBoxes.get(0).getRow();
-        int xEnd = clickedBoxes.get(1).getCol();
-        int yEnd = clickedBoxes.get(1).getRow();
+        int xStart = startBox.getCol();
+        int yStart = startBox.getRow();
+        int xEnd = endBox.getCol();
+        int yEnd = endBox.getRow();
         int xDif = Math.abs(xStart - xEnd);
         int yDif = Math.abs(yStart - yEnd);
         if (xDif > 1 || yDif > 1) {
 
             return false;
         }
-        return checkForCapture();
+        return true;
     }
 
 

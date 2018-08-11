@@ -35,21 +35,24 @@ public class Board {
                 && game.mouseY > box.getRow() * Game.getGAMEHEIGHT() / 8 && game.mouseY < box.getRow() * Game.getGAMEHEIGHT() / 8 + Game.getGAMEHEIGHT() / 8;
     }
 
-    public void drawGrid() {
 
+    public void drawGrid() {
         for (Box box : grid) {
+
             if (boxSelected(box)) {
                 box.setSelected(true);
-            } else {
+            } else if (!boxSelected(box)) {
                 box.setSelected(false);
             }
-
             box.drawBox();
 
         }
 
 
+
+
     }
+
 
     private void switchColor() {
         if (color == WHITEBOX) {
@@ -68,14 +71,39 @@ public class Board {
         }
     }
 
+    public void clearHighLightedOptionalBoxes() {
+        for (Box box : getGrid()) {
+            box.setOption(false);
+        }
+    }
+
+    public void setHighLightedOptionalBoxes(Box startBox) {
+        for (Box box : getOptionalBoxes(startBox)) {
+            box.setOption(true);
+        }
+    }
+
+    private ArrayList<Box> getOptionalBoxes(Box startBox) {
+        ArrayList<Box> hightLightedOptions = new ArrayList<>();
+        if (startBox != null && startBox.getPiece() != null) {
+            for (Box box : getGrid()) {
+                if (startBox.getPiece().validateMove(startBox, box)) {
+                    hightLightedOptions.add(box);
+                }
+            }
+        }
+        return hightLightedOptions;
+    }
+
+
     public ArrayList<Box> diagonalPath(Box startBox, Box endBox) {
         ArrayList<Box> path = new ArrayList<>();
         int startX = startBox.getCol(), startY = startBox.getRow();
         int endX = endBox.getCol(), endY = endBox.getRow();
         int difX;
         int difY;
-        if (startBox.getPiece().horizontalDirections() != null && startBox.getPiece().horizontalDirections() == Directions.RIGHT) {
-            if (startBox.getPiece().verticalDirections() != null && startBox.getPiece().verticalDirections() == Directions.UP) {
+        if (startBox.getPiece().horizontalDirections(startBox, endBox) != null && startBox.getPiece().horizontalDirections(startBox, endBox) == Directions.RIGHT) {
+            if (startBox.getPiece().verticalDirections(startBox, endBox) != null && startBox.getPiece().verticalDirections(startBox, endBox) == Directions.UP) {
                 for (Box box : getGrid()) {
                     if (box.getCol() > startX && box.getCol() < endX && box.getRow() < startY && box.getRow() > endY) {
                         difX = Math.abs(box.getCol() - startX);
@@ -85,7 +113,7 @@ public class Board {
                         }
                     }
                 }
-            } else if (startBox.getPiece().verticalDirections() != null && startBox.getPiece().verticalDirections() == Directions.DOWN) {
+            } else if (startBox.getPiece().verticalDirections(startBox, endBox) != null && startBox.getPiece().verticalDirections(startBox, endBox) == Directions.DOWN) {
                 for (Box box : getGrid()) {
                     if (box.getCol() > startX && box.getCol() < endX && box.getRow() > startY && box.getRow() < endY) {
                         difX = Math.abs(box.getCol() - startX);
@@ -97,8 +125,8 @@ public class Board {
                     }
                 }
             }
-        } else if (startBox.getPiece().horizontalDirections() != null && startBox.getPiece().horizontalDirections() == Directions.LEFT) {
-            if (startBox.getPiece().verticalDirections() != null && startBox.getPiece().verticalDirections() == Directions.UP) {
+        } else if (startBox.getPiece().horizontalDirections(startBox, endBox) != null && startBox.getPiece().horizontalDirections(startBox, endBox) == Directions.LEFT) {
+            if (startBox.getPiece().verticalDirections(startBox, endBox) != null && startBox.getPiece().verticalDirections(startBox, endBox) == Directions.UP) {
                 for (Box box : getGrid()) {
                     if (box.getCol() < startX && box.getCol() > endX && box.getRow() < startY && box.getRow() > endY) {
                         difX = Math.abs(box.getCol() - startX);
@@ -109,7 +137,7 @@ public class Board {
 
                     }
                 }
-            } else if (startBox.getPiece().verticalDirections() != null && startBox.getPiece().verticalDirections() == Directions.DOWN) {
+            } else if (startBox.getPiece().verticalDirections(startBox, endBox) != null && startBox.getPiece().verticalDirections(startBox, endBox) == Directions.DOWN) {
                 for (Box box : getGrid()) {
                     if (box.getCol() < startX && box.getCol() > endX && box.getRow() > startY && box.getRow() < endY) {
                         difX = Math.abs(box.getCol() - startX);
@@ -136,7 +164,7 @@ public class Board {
 //        System.out.println(startBox.getPiece().horizontalDirections());
 //        System.out.println(startBox.getPiece().verticalDirections());
 
-        if (startBox.getPiece().horizontalDirections() != null && startBox.getPiece().horizontalDirections() == Directions.RIGHT) {
+        if (startBox.getPiece().horizontalDirections(startBox, endBox) != null && startBox.getPiece().horizontalDirections(startBox, endBox) == Directions.RIGHT) {
             for (Box box : getGrid()) {
                 if (box.getRow() == startY && box.getRow() == endY) {//if vertical is same
                     if (box.getCol() > startX && box.getCol() < endX) {//if horizontal is incrementing between start and endpoint
@@ -146,7 +174,7 @@ public class Board {
             }
         }
 
-        if (startBox.getPiece().horizontalDirections() != null && startBox.getPiece().horizontalDirections() == Directions.LEFT) {
+        if (startBox.getPiece().horizontalDirections(startBox, endBox) != null && startBox.getPiece().horizontalDirections(startBox, endBox) == Directions.LEFT) {
             for (Box box : getGrid()) {
                 if (box.getRow() == startY && box.getRow() == endY) {//if vertical is same
                     if (box.getCol() < startX && box.getCol() > endX) {//if horizontal is decrementing between start and endpoint
@@ -155,7 +183,7 @@ public class Board {
                 }
             }
         }
-        if (startBox.getPiece().verticalDirections() != null && startBox.getPiece().verticalDirections() == Directions.UP) {
+        if (startBox.getPiece().verticalDirections(startBox, endBox) != null && startBox.getPiece().verticalDirections(startBox, endBox) == Directions.UP) {
             for (Box box : getGrid()) {
                 if (box.getRow() < startY && box.getRow() > endY) {//if vertical is decrementing between start and endpoint
                     if (box.getCol() == startX && box.getCol() == endX) {//if horizontal is same
@@ -164,7 +192,7 @@ public class Board {
                 }
             }
         }
-        if (startBox.getPiece().verticalDirections() != null && startBox.getPiece().verticalDirections() == Directions.DOWN) {
+        if (startBox.getPiece().verticalDirections(startBox, endBox) != null && startBox.getPiece().verticalDirections(startBox, endBox) == Directions.DOWN) {
             for (Box box : getGrid()) {
                 if (box.getRow() > startY && box.getRow() < endY) {//if vertical is incrementing between start and endpoint
                     if (box.getCol() == startX && box.getCol() == endX) {//if horizontal is same

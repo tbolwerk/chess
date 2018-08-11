@@ -15,52 +15,47 @@ public class Pawn extends Piece {
         drawPiece();
     }
 
-    @Override
-    public boolean checkForCapture() {
-        return false;
-    }
-
 
     @Override
-    public boolean validateMove() {
-        ArrayList<Box> clickedBoxes = game.getClickedBoxes();
-
-        //checks if piece from player and turn is true
-        if (!clickedBoxes.get(0).getPiece().getPlayer().getIsTurn() && clickedBoxes.get(0).getPiece() instanceof Pawn)
+    public boolean validateMove(Box startBox, Box endBox) {
+        if (endBox.getPiece() != null && startBox.getPiece().getIsWhite() == endBox.getPiece().getIsWhite()) {
             return false;
+        }
+
+
         //checks movement pawn
-        if (!clickedBoxes.get(0).getPiece().getIsWhite() && clickedBoxes.get(0).getPiece() instanceof Pawn) {
+        if (!startBox.getPiece().getIsWhite() && startBox.getPiece() instanceof Pawn) {
 
-            if (clickedBoxes.get(0).getBoxId() < clickedBoxes.get(1).getBoxId() && clickedBoxes.get(1).getBoxId() == clickedBoxes.get(0).getBoxId() + 16 && clickedBoxes.get(0).getBoxId() < 16 && clickedBoxes.get(1).getPiece() == null) {
+            if (startBox.getBoxId() < endBox.getBoxId() && endBox.getBoxId() == startBox.getBoxId() + 16 && startBox.getBoxId() < 16 && endBox.getPiece() == null) {
                 return true;
             }
-            if (clickedBoxes.get(0).getBoxId() < clickedBoxes.get(1).getBoxId() && clickedBoxes.get(1).getBoxId() == clickedBoxes.get(0).getBoxId() + 8 && clickedBoxes.get(1).getPiece() == null) {
+            if (startBox.getBoxId() < endBox.getBoxId() && endBox.getBoxId() == startBox.getBoxId() + 8 && endBox.getPiece() == null) {
 
                 return true;
             }
-            if (clickedBoxes.get(0).getBoxId() < clickedBoxes.get(1).getBoxId() && clickedBoxes.get(1).getBoxId() == clickedBoxes.get(0).getBoxId() + 7 && clickedBoxes.get(1).getPiece() != null) {
-                game.removePiece();
+            if (startBox.getBoxId() < endBox.getBoxId() && endBox.getBoxId() == startBox.getBoxId() + 7 && endBox.getPiece() != null) {
+
                 return true;
             }
-            if (clickedBoxes.get(0).getBoxId() < clickedBoxes.get(1).getBoxId() && clickedBoxes.get(1).getBoxId() == clickedBoxes.get(0).getBoxId() + 9 && clickedBoxes.get(1).getPiece() != null) {
-                game.removePiece();
+            if (startBox.getBoxId() < endBox.getBoxId() && endBox.getBoxId() == startBox.getBoxId() + 9 && endBox.getPiece() != null) {
+
                 return true;
             }
         }
-        if (clickedBoxes.get(0).getPiece().getIsWhite() && clickedBoxes.get(0).getPiece() instanceof Pawn) {
-            if (clickedBoxes.get(0).getBoxId() > clickedBoxes.get(1).getBoxId() && clickedBoxes.get(1).getBoxId() == clickedBoxes.get(0).getBoxId() - 16 && clickedBoxes.get(0).getBoxId() > 45 && clickedBoxes.get(1).getPiece() == null) {
+        if (startBox.getPiece().getIsWhite() && startBox.getPiece() instanceof Pawn) {
+            if (startBox.getBoxId() > endBox.getBoxId() && endBox.getBoxId() == startBox.getBoxId() - 16 && startBox.getBoxId() > 45 && endBox.getPiece() == null) {
                 return true;
             }
-            if (clickedBoxes.get(0).getBoxId() > clickedBoxes.get(1).getBoxId() && clickedBoxes.get(1).getBoxId() == clickedBoxes.get(0).getBoxId() - 8 && clickedBoxes.get(1).getPiece() == null) {
+            if (startBox.getBoxId() > endBox.getBoxId() && endBox.getBoxId() == startBox.getBoxId() - 8 && endBox.getPiece() == null) {
 
                 return true;
             }
-            if (clickedBoxes.get(0).getBoxId() > clickedBoxes.get(1).getBoxId() && clickedBoxes.get(1).getBoxId() == clickedBoxes.get(0).getBoxId() - 7 && clickedBoxes.get(1).getPiece() != null) {
-                game.removePiece();
+            if (startBox.getBoxId() > endBox.getBoxId() && endBox.getBoxId() == startBox.getBoxId() - 7 && endBox.getPiece() != null) {
+
                 return true;
             }
-            if (clickedBoxes.get(0).getBoxId() > clickedBoxes.get(1).getBoxId() && clickedBoxes.get(1).getBoxId() == clickedBoxes.get(0).getBoxId() - 9 && clickedBoxes.get(1).getPiece() != null) {
-                game.removePiece();
+            if (startBox.getBoxId() > endBox.getBoxId() && endBox.getBoxId() == startBox.getBoxId() - 9 && endBox.getPiece() != null) {
+
                 return true;
             }
         }

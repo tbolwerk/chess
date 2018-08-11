@@ -11,85 +11,75 @@ public class Queen extends Piece {
         drawPiece();
     }
 
-    @Override
-    public boolean checkForCapture() {
-        ArrayList<Box> clickedBoxes = game.getClickedBoxes();
-        if (clickedBoxes.get(1).getPiece() != null && clickedBoxes.get(1).getPiece().getIsWhite() != clickedBoxes.get(0).getPiece().getIsWhite()) {
-            game.removePiece();
-            return true;
-        }
-        return true;
 
-    }
 
 
     @Override
-    public boolean validateMove() {
-        ArrayList<Box> clickedBoxes = game.getClickedBoxes();
-        int column = Math.abs(clickedBoxes.get(0).getCol() - clickedBoxes.get(1).getCol());
-        int row = Math.abs(clickedBoxes.get(0).getRow() - clickedBoxes.get(1).getRow());
-        if (!clickedBoxes.get(0).getPiece().getPlayer().getIsTurn() && clickedBoxes.get(0).getPiece() instanceof Queen) {
-            return false;
-        }
-        if (clickedBoxes.get(1).getPiece() != null && clickedBoxes.get(0).getPiece().getIsWhite() == clickedBoxes.get(1).getPiece().getIsWhite()) {
+    public boolean validateMove(Box startBox, Box endBox) {
+
+        int column = Math.abs(startBox.getCol() - endBox.getCol());
+        int row = Math.abs(startBox.getRow() - endBox.getRow());
+
+
+        if (endBox.getPiece() != null && startBox.getPiece().getIsWhite() == endBox.getPiece().getIsWhite()) {
             return false;
         }
 
-        if (verticalDirections() != null) {
-            if (horizontalDirections() == null) {
-                if (verticalDirections() == Directions.UP) {
+        if (verticalDirections(startBox, endBox) != null) {
+            if (horizontalDirections(startBox, endBox) == null) {
+                if (verticalDirections(startBox, endBox) == Directions.UP) {
 
-                    for (Box box : game.getBoard().straightPath(clickedBoxes.get(0), clickedBoxes.get(1))) {
+                    for (Box box : game.getBoard().straightPath(startBox, endBox)) {
                         if (box.getPiece() != null) {
                             return false;
                         }
                     }
-                    return checkForCapture();
+                    return true;
                     //up is true
 
-                } else if (verticalDirections() == Directions.DOWN) {
+                } else if (verticalDirections(startBox, endBox) == Directions.DOWN) {
 
-                    for (Box box : game.getBoard().straightPath(clickedBoxes.get(0), clickedBoxes.get(1))) {
+                    for (Box box : game.getBoard().straightPath(startBox, endBox)) {
                         if (box.getPiece() != null) {
                             return false;
                         }
                     }
                     //down is true
-                    return checkForCapture();
+                    return true;
 
                 }
-            } else if (horizontalDirections() != null && horizontalDirections() == Directions.LEFT) {
-                for (Box box : game.getBoard().diagonalPath(clickedBoxes.get(0), clickedBoxes.get(1))) {
+            } else if (horizontalDirections(startBox, endBox) != null && horizontalDirections(startBox, endBox) == Directions.LEFT) {
+                for (Box box : game.getBoard().diagonalPath(startBox, endBox)) {
                     if (box.getPiece() != null) {
                         return false;
                     }
                 }
-                return checkForCapture();
-            } else if (horizontalDirections() != null && horizontalDirections() == Directions.RIGHT) {
-                for (Box box : game.getBoard().diagonalPath(clickedBoxes.get(0), clickedBoxes.get(1))) {
+                return true;
+            } else if (horizontalDirections(startBox, endBox) != null && horizontalDirections(startBox, endBox) == Directions.RIGHT) {
+                for (Box box : game.getBoard().diagonalPath(startBox, endBox)) {
                     if (box.getPiece() != null) {
                         return false;
                     }
                 }
-                return checkForCapture();
+                return true;
             }
 
-        } else if (verticalDirections() == null) {
-            if (horizontalDirections() != null) {
-                if (horizontalDirections() == Directions.LEFT) {
-                    for (Box box : game.getBoard().straightPath(clickedBoxes.get(0), clickedBoxes.get(1))) {
+        } else if (verticalDirections(startBox, endBox) == null) {
+            if (horizontalDirections(startBox, endBox) != null) {
+                if (horizontalDirections(startBox, endBox) == Directions.LEFT) {
+                    for (Box box : game.getBoard().straightPath(startBox, endBox)) {
                         if (box.getPiece() != null) {
                             return false;
                         }
                     }
-                    return checkForCapture();
-                } else if (horizontalDirections() == Directions.RIGHT) {
-                    for (Box box : game.getBoard().straightPath(clickedBoxes.get(0), clickedBoxes.get(1))) {
+                    return true;
+                } else if (horizontalDirections(startBox, endBox) == Directions.RIGHT) {
+                    for (Box box : game.getBoard().straightPath(startBox, endBox)) {
                         if (box.getPiece() != null) {
                             return false;
                         }
                     }
-                    return checkForCapture();
+                    return true;
                 }
 
             }

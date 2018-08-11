@@ -12,6 +12,7 @@ public class Box {
     private boolean isSelected;
     private boolean isClicked;
     private boolean isOption;
+    private boolean isHighlighted;
 
     private Piece piece = null;
     public Box(Game game, int boxId, int row, int col, int color) {
@@ -38,6 +39,9 @@ public class Box {
             drawColor = color;
         }
         game.fill(drawColor);
+        if (isOption) {
+            game.fill(0, 255, 0);
+        }
         game.rect(boxWidth() * col, boxHeight() * row, boxWidth(), boxHeight());
 //        debugBox();
 
@@ -112,5 +116,12 @@ public class Box {
         return boxId;
     }
 
+    public void setIsHighlighted(boolean isHighlighted) {
+        this.isHighlighted = isHighlighted;
+    }
 
+
+    public boolean isHighlighted() {
+        return isHighlighted;
+    }
 }

@@ -49,12 +49,19 @@ public abstract class Piece {
         this.boxId = boxId;
     }
 
-    public abstract boolean checkForCapture();
 
-    public Enum<Directions> horizontalDirections() {
+    public boolean checkForCapture() {
         ArrayList<Box> clickedBoxes = game.getClickedBoxes();
-        int row = clickedBoxes.get(0).getRow() - clickedBoxes.get(1).getRow();
-        int column = clickedBoxes.get(0).getCol() - clickedBoxes.get(1).getCol();
+        if (clickedBoxes.get(1).getPiece() != null && clickedBoxes.get(1).getPiece().getIsWhite() != clickedBoxes.get(0).getPiece().getIsWhite()) {
+            return true;
+        }
+        return false;
+    }
+
+    public Enum<Directions> horizontalDirections(Box startBox, Box endBox) {
+
+
+        int column = startBox.getCol() - endBox.getCol();
 
         if (column < 0) {
             return Directions.RIGHT;
@@ -66,10 +73,10 @@ public abstract class Piece {
     }
 
 
-    public Enum<Directions> verticalDirections() {
-        ArrayList<Box> clickedBoxes = game.getClickedBoxes();
-        int column = clickedBoxes.get(0).getCol() - clickedBoxes.get(1).getCol();
-        int row = clickedBoxes.get(0).getRow() - clickedBoxes.get(1).getRow();
+    public Enum<Directions> verticalDirections(Box startBox, Box endBox) {
+
+
+        int row = startBox.getRow() - endBox.getRow();
         if (row < 0) {
             return Directions.DOWN;
         } else if (row > 0) {
@@ -78,7 +85,7 @@ public abstract class Piece {
         return null;
     }
 
-    public abstract boolean validateMove();
+    public abstract boolean validateMove(Box startBox, Box endBox);
 
     public Player getPlayer() {
         return player;

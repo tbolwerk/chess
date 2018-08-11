@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 
 public class Game extends PApplet {
-    final private static float GAMEWIDTH = 500;
+    final private static float GAMEWIDTH = 700;
     final private static float GAMEHEIGHT = GAMEWIDTH;
 
     private State currentState = State.MENU;
@@ -118,43 +118,64 @@ public class Game extends PApplet {
                     clickedBoxes.add(box);
                 }
             }
-
+            if (clickedBoxes.size() == 1 && clickedBoxes.get(0).getPiece() != null) {
+                showOptions();
+            }
 
             if (clickedBoxes.size() > 1) {
                 movePiece();
                 board.setAllBoxesUnclicked();
                 clickedBoxes.clear();
+                board.clearHighLightedOptionalBoxes();
             }
         }
 
     }
+
+    private void showOptions() {
+        Box startBox = clickedBoxes.get(0);
+        if (startBox.getPiece() != null) {
+            board.setHighLightedOptionalBoxes(startBox);
+
+        }
+    }
+
 
     private void movePiece() {
-        int newBoxId = 0;
-        for (Box box : clickedBoxes) {
-            newBoxId = box.getBoxId();
-        }
-        for (Box box : clickedBoxes) {
-            if (box.getPiece() != null && box.getPiece().validateMove()) {
-                if (checkIsTurn())
-                box.getPiece().setBoxId(newBoxId);
-                box.unSetPiece();
+
+
+        Box startBox = clickedBoxes.get(0);
+        Box endBox = clickedBoxes.get(1);
+        int newBoxId = endBox.getBoxId();
+
+
+        if (startBox.getPiece().validateMove(startBox, endBox)) {//checks if starting box has piece in it and if it makes a validmove
+            if (checkIsTurn(startBox.getPiece().getPlayer())) {
+                if (endBox.getPiece() != null && startBox.getPiece().checkForCapture()) {//checks if endpoint has a piece in it + capture
+                    removePiece();
+                    endBox.unSetPiece();
+                }
+
+                startBox.getPiece().setBoxId(newBoxId);
+                clickedBoxes.get(1).setPiece(startBox.getPiece());
+                startBox.unSetPiece();
+                endTurn();
+
+
             }
+        }
+        }
+
+
+    private void endTurn() {
+
+        for (Player player : getPlayers()) {
+            player.setTurn(!player.getIsTurn());
         }
     }
 
-    private boolean checkIsTurn() {
-        if (getPlayers().get(0).getPieces().contains(clickedBoxes.get(0).getPiece()) && getPlayers().get(0).getIsTurn()) {
-            getPlayers().get(0).setTurn(false);
-            getPlayers().get(1).setTurn(true);
-            return true;
-        }
-        if (getPlayers().get(1).getPieces().contains(clickedBoxes.get(0).getPiece()) && getPlayers().get(1).getIsTurn()) {
-            getPlayers().get(0).setTurn(true);
-            getPlayers().get(1).setTurn(false);
-            return true;
-        }
-        return false;
+    private boolean checkIsTurn(Player player) {
+        return player.getIsTurn();
     }
 
     public Board getBoard() {
@@ -163,12 +184,11 @@ public class Game extends PApplet {
 
     public void removePiece() {
         //checks piece for color
-        if (clickedBoxes.get(0).getPiece() != null && clickedBoxes.get(1).getPiece() != null && clickedBoxes.get(0).getPiece().getIsWhite() != clickedBoxes.get(1).getPiece().getIsWhite()) {
-            if (clickedBoxes.get(0).getPiece().getPlayer().getIsTurn()) {
+
                 clickedBoxes.get(1).getPiece().getPlayer().removePiece(clickedBoxes.get(1).getPiece());
                 clickedBoxes.get(1).unSetPiece();
-            }
-        }
+
+
     }
 
 

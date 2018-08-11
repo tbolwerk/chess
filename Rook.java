@@ -10,48 +10,44 @@ public class Rook extends Piece {
         drawPiece();
     }
 
-    @Override
-    public boolean checkForCapture() {
-        return false;
-    }
+
 
 
     @Override
-    public boolean validateMove() {
-        ArrayList<Box> clickedBoxes = game.getClickedBoxes();
+    public boolean validateMove(Box startBox, Box endBox) {
 
-        //checks for turn
-        if (!clickedBoxes.get(0).getPiece().getPlayer().getIsTurn() || clickedBoxes.get(1).getPiece() != null && clickedBoxes.get(0).getPiece().getIsWhite() == clickedBoxes.get(1).getPiece().getIsWhite()) {
+
+        if (endBox.getPiece() != null && startBox.getPiece().getIsWhite() == endBox.getPiece().getIsWhite()) {
             return false;
         }
 
         //checks if moved left or right
-        if (clickedBoxes.get(0).getCol() == clickedBoxes.get(1).getCol() && clickedBoxes.get(0).getRow() != clickedBoxes.get(1).getRow()) {
+        if (startBox.getCol() == endBox.getCol() && startBox.getRow() != endBox.getRow()) {
             //checks for pieces in path
-//            System.out.println(Board.path(clickedBoxes.get(0),clickedBoxes.get(1)).size());
-            for (Box box : game.getBoard().straightPath(clickedBoxes.get(0), clickedBoxes.get(1))) {
+//            System.out.println(Board.path(startBox,endBox).size());
+            for (Box box : game.getBoard().straightPath(startBox, endBox)) {
                 if (box.getPiece() != null) {
 //                System.out.println(box.getPiece().toString());
                     return false;
                 }
             }
             //checks for capture
-            if (clickedBoxes.get(1).getPiece() != null && clickedBoxes.get(0).getPiece().getIsWhite() != clickedBoxes.get(1).getPiece().getIsWhite()) {
-                game.removePiece();
+            if (endBox.getPiece() != null && startBox.getPiece().getIsWhite() != endBox.getPiece().getIsWhite()) {
+
                 return true;
             }
             return true;
             //checks if moved up or down
-        } else if (clickedBoxes.get(0).getCol() != clickedBoxes.get(1).getCol() && clickedBoxes.get(0).getRow() == clickedBoxes.get(1).getRow()) {
+        } else if (startBox.getCol() != endBox.getCol() && startBox.getRow() == endBox.getRow()) {
             //checks for pieces in path
-            for (Box box : game.getBoard().straightPath(clickedBoxes.get(0), clickedBoxes.get(1))) {
+            for (Box box : game.getBoard().straightPath(startBox, endBox)) {
                 if (box.getPiece() != null) {
                     return false;
                 }
             }
             //checks for capture
-            if (clickedBoxes.get(1).getPiece() != null && clickedBoxes.get(0).getPiece().getIsWhite() != clickedBoxes.get(1).getPiece().getIsWhite()) {
-                game.removePiece();
+            if (endBox.getPiece() != null && startBox.getPiece().getIsWhite() != endBox.getPiece().getIsWhite()) {
+
                 return true;
             }
             return true;

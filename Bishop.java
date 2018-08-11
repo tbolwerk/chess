@@ -10,36 +10,27 @@ public class Bishop extends Piece {
         drawPiece();
     }
 
-    @Override
-    public boolean checkForCapture() {
-        return false;
-    }
-
 
     @Override
-    public boolean validateMove() {
+    public boolean validateMove(Box startBox, Box endBox) {
         ArrayList<Box> clickedBoxes = game.getClickedBoxes();
-        int column = Math.abs(clickedBoxes.get(0).getCol() - clickedBoxes.get(1).getCol());
-        int row = Math.abs(clickedBoxes.get(0).getRow() - clickedBoxes.get(1).getRow());
-        System.out.println(verticalDirections() + " " + horizontalDirections());
-        if (!clickedBoxes.get(0).getPiece().getPlayer().getIsTurn()) {
+        int column = Math.abs(startBox.getCol() - endBox.getCol());
+        int row = Math.abs(startBox.getRow() - endBox.getRow());
+        if (endBox.getPiece() != null && startBox.getPiece().getIsWhite() == endBox.getPiece().getIsWhite()) {
             return false;
         }
 
+
         if (row == column) {
-            for (Box box : game.getBoard().diagonalPath(clickedBoxes.get(0), clickedBoxes.get(1))) {
+            for (Box box : game.getBoard().diagonalPath(clickedBoxes.get(0), endBox)) {
                 if (box.getPiece() != null) {
 
                     System.out.println(box.getPiece().toString());
                     return false;
                 }
             }
-            if (clickedBoxes.get(1).getPiece() != null && clickedBoxes.get(0).getPiece().getIsWhite() == clickedBoxes.get(1).getPiece().getIsWhite()) {
+            if (endBox.getPiece() != null && clickedBoxes.get(0).getPiece().getIsWhite() == endBox.getPiece().getIsWhite()) {
                 return false;
-            }
-            if (clickedBoxes.get(1).getPiece() != null && clickedBoxes.get(0).getPiece().getIsWhite() != clickedBoxes.get(1).getPiece().getIsWhite()) {
-                game.removePiece();
-                return true;
             }
             return true;
         }
