@@ -34,6 +34,11 @@ public class King extends Piece {
         return true;
     }
 
+    @Override
+    public int valueOfPiece() {
+        return 6;
+    }
+
 
     public void drawPiece() {
         if (!getIsWhite()) {

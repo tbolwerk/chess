@@ -24,6 +24,7 @@ public abstract class Piece {
 
     }
 
+
     public void drawPiece(float x, float y) {
         if (pieceImage != null) {
             pieceImage.resize((int) Game.getGAMEWIDTH() / 8, (int) Game.getGAMEHEIGHT() / 8);
@@ -102,10 +103,22 @@ public abstract class Piece {
 
     public abstract boolean validateMove(Box startBox, Box endBox);
 
+    public abstract int valueOfPiece();
+
     public void countingMovement() {
         countMovement++;
     }
 
+
+    public Box getBox() {
+
+        for (Box box : Board.getGrid()) {
+            if (box.getBoxId() == this.boxId) {
+                return box;
+            }
+        }
+        return null;
+    }
     public Player getPlayer() {
         return player;
     }

@@ -48,6 +48,11 @@ public class Queen extends Piece {
         return false;
     }
 
+    @Override
+    public int valueOfPiece() {
+        return 5;
+    }
+
 
     public void drawPiece() {
         if (!getIsWhite()) {

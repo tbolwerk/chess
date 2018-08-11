@@ -4,7 +4,7 @@ public class Player {
     final int PAWNS = 8;
     private int color;
     private ArrayList<Piece> pieces = new ArrayList<Piece>();
-    private Game game;
+    protected Game game;
     private boolean isBlack;
     private boolean isWhite;
     private String playerName;

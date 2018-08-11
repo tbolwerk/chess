@@ -1,7 +1,7 @@
 import processing.core.PImage;
 
 import java.awt.*;
-import java.util.ArrayList;
+
 
 public class Knight extends Piece {
     private int y;
@@ -41,6 +41,11 @@ public class Knight extends Piece {
             }
         }
         return false;
+    }
+
+    @Override
+    public int valueOfPiece() {
+        return 4;
     }
 
 

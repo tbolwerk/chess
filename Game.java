@@ -20,6 +20,9 @@ public class Game extends PApplet {
     private Board board;
     private Player player;
     private Player player2;
+    private Computer computer;
+    private Computer computer2;
+
 
 
     public static void main(String args[]) {
@@ -49,8 +52,14 @@ public class Game extends PApplet {
         }
         if (currentState == State.SETUP) {
             board.drawGrid();
-            player.drawPieces();
-            player2.drawPieces();
+            for (Player player : getPlayers()) {
+                player.drawPieces();
+                if (player instanceof AI) {
+                    if (player.getIsTurn()) {
+                        ((AI) player).makeMove();
+                    }
+                }
+            }
         }
         if (currentState == State.GAME_OVER) {
             background(0);
@@ -79,10 +88,15 @@ public class Game extends PApplet {
             board = new Board(this);
             board.initGrid();
             imageLoader = new ImageLoader(this, "pieces/chess_pieces.png");
-            player = new Player(this, 125, true);
-            player2 = new Player(this, 75, false);
-            players.add(player);
-            players.add(player2);
+//            player = new Player(this, 125, true);
+//            player2 = new Player(this, 75, false);
+            computer = new Computer(this, 75, false);
+            computer2 = new Computer(this, 125, true);
+//            AI = new Ai(this,125,true);
+
+
+            players.add(computer2);
+            players.add(computer);
         }
 
     }
@@ -200,6 +214,7 @@ public class Game extends PApplet {
     public ArrayList<Box> getClickedBoxes() {
         return clickedBoxes;
     }
+
 
     public void setCurrentState(State currentState) {
         this.currentState = currentState;

@@ -48,7 +48,10 @@ public class Rook extends Piece {
         return false;
     }
 
-
+    @Override
+    public int valueOfPiece() {
+        return 3;
+    }
 
 
     public void drawPiece() {

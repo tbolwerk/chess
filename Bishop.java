@@ -35,6 +35,11 @@ public class Bishop extends Piece {
         return false;
     }
 
+    @Override
+    public int valueOfPiece() {
+        return 2;
+    }
+
 
     public void drawPiece() {
         if (!getIsWhite()) {

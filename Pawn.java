@@ -52,6 +52,11 @@ public class Pawn extends Piece {
         return false;
     }
 
+    @Override
+    public int valueOfPiece() {
+        return 1;
+    }
+
 
     public void drawPiece() {
 
