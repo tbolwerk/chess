@@ -72,10 +72,9 @@ public class Game extends PApplet {
             button.setSelectColor(123);
             button.setText("Start Game");
         } else if (currentState == State.GAME_OVER) {
+            players.clear();
             button.setText("New Game");
-        }
-
-
+        } else
         if (currentState == State.SETUP) {
             board = new Board(this);
             board.initGrid();
@@ -91,15 +90,15 @@ public class Game extends PApplet {
     @Override
     public void mouseClicked() {
         if (currentState != State.SETUP && currentState != State.GAME_OVER) {
-            currentState = State.SETUP;
+            if (button.overRect()) {
+                currentState = State.SETUP;
+            }
             setup();
         } else if (currentState == State.GAME_OVER) {
             setup();
             if (button.overRect()) {
                 currentState = State.MENU;
             }
-        } else if (currentState == State.MENU) {
-            setup();
         }
 
 
@@ -157,6 +156,7 @@ public class Game extends PApplet {
                 }
 
                 startBox.getPiece().setBoxId(newBoxId);
+                startBox.getPiece().countingMovement();
                 clickedBoxes.get(1).setPiece(startBox.getPiece());
                 startBox.unSetPiece();
                 endTurn();

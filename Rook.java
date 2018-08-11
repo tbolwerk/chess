@@ -22,7 +22,7 @@ public class Rook extends Piece {
         }
 
         //checks if moved left or right
-        if (startBox.getCol() == endBox.getCol() && startBox.getRow() != endBox.getRow()) {
+        if (movesHorizontal(startBox, endBox)) {
             //checks for pieces in path
 //            System.out.println(Board.path(startBox,endBox).size());
             for (Box box : game.getBoard().straightPath(startBox, endBox)) {
@@ -31,25 +31,18 @@ public class Rook extends Piece {
                     return false;
                 }
             }
-            //checks for capture
-            if (endBox.getPiece() != null && startBox.getPiece().getIsWhite() != endBox.getPiece().getIsWhite()) {
 
-                return true;
-            }
             return true;
             //checks if moved up or down
-        } else if (startBox.getCol() != endBox.getCol() && startBox.getRow() == endBox.getRow()) {
+        } else //noinspection Duplicates
+            if (movesVertical(startBox, endBox)) {
             //checks for pieces in path
             for (Box box : game.getBoard().straightPath(startBox, endBox)) {
                 if (box.getPiece() != null) {
                     return false;
                 }
             }
-            //checks for capture
-            if (endBox.getPiece() != null && startBox.getPiece().getIsWhite() != endBox.getPiece().getIsWhite()) {
 
-                return true;
-            }
             return true;
         }
         return false;

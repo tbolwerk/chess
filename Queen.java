@@ -12,8 +12,6 @@ public class Queen extends Piece {
     }
 
 
-
-
     @Override
     public boolean validateMove(Box startBox, Box endBox) {
 
@@ -25,68 +23,29 @@ public class Queen extends Piece {
             return false;
         }
 
-        if (verticalDirections(startBox, endBox) != null) {
-            if (horizontalDirections(startBox, endBox) == null) {
-                if (verticalDirections(startBox, endBox) == Directions.UP) {
-
-                    for (Box box : game.getBoard().straightPath(startBox, endBox)) {
-                        if (box.getPiece() != null) {
-                            return false;
-                        }
-                    }
-                    return true;
-                    //up is true
-
-                } else if (verticalDirections(startBox, endBox) == Directions.DOWN) {
-
-                    for (Box box : game.getBoard().straightPath(startBox, endBox)) {
-                        if (box.getPiece() != null) {
-                            return false;
-                        }
-                    }
-                    //down is true
-                    return true;
-
+        if (movesVertical(startBox, endBox)) {
+            for (Box box : game.getBoard().straightPath(startBox, endBox)) {
+                if (box.getPiece() != null) {
+                    return false;
                 }
-            } else if (horizontalDirections(startBox, endBox) != null && horizontalDirections(startBox, endBox) == Directions.LEFT) {
-                for (Box box : game.getBoard().diagonalPath(startBox, endBox)) {
-                    if (box.getPiece() != null) {
-                        return false;
-                    }
-                }
-                return true;
-            } else if (horizontalDirections(startBox, endBox) != null && horizontalDirections(startBox, endBox) == Directions.RIGHT) {
-                for (Box box : game.getBoard().diagonalPath(startBox, endBox)) {
-                    if (box.getPiece() != null) {
-                        return false;
-                    }
-                }
-                return true;
             }
-
-        } else if (verticalDirections(startBox, endBox) == null) {
-            if (horizontalDirections(startBox, endBox) != null) {
-                if (horizontalDirections(startBox, endBox) == Directions.LEFT) {
-                    for (Box box : game.getBoard().straightPath(startBox, endBox)) {
-                        if (box.getPiece() != null) {
-                            return false;
-                        }
-                    }
-                    return true;
-                } else if (horizontalDirections(startBox, endBox) == Directions.RIGHT) {
-                    for (Box box : game.getBoard().straightPath(startBox, endBox)) {
-                        if (box.getPiece() != null) {
-                            return false;
-                        }
-                    }
-                    return true;
+            return true;
+        } else if (movesHorizontal(startBox, endBox)) {
+            for (Box box : game.getBoard().straightPath(startBox, endBox)) {
+                if (box.getPiece() != null) {
+                    return false;
                 }
-
             }
-
+            return true;
+        } else if (movesDiagonal(startBox, endBox)) {
+            for (Box box : game.getBoard().diagonalPath(startBox, endBox)) {
+                if (box.getPiece() != null) {
+                    return false;
+                }
+            }
+            return true;
         }
         return false;
-
     }
 
 

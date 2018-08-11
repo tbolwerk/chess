@@ -13,23 +13,21 @@ public class Bishop extends Piece {
 
     @Override
     public boolean validateMove(Box startBox, Box endBox) {
-        ArrayList<Box> clickedBoxes = game.getClickedBoxes();
-        int column = Math.abs(startBox.getCol() - endBox.getCol());
-        int row = Math.abs(startBox.getRow() - endBox.getRow());
+
         if (endBox.getPiece() != null && startBox.getPiece().getIsWhite() == endBox.getPiece().getIsWhite()) {
             return false;
         }
 
 
-        if (row == column) {
-            for (Box box : game.getBoard().diagonalPath(clickedBoxes.get(0), endBox)) {
+        if (movesDiagonal(startBox, endBox)) {
+            for (Box box : game.getBoard().diagonalPath(startBox, endBox)) {
                 if (box.getPiece() != null) {
 
                     System.out.println(box.getPiece().toString());
                     return false;
                 }
             }
-            if (endBox.getPiece() != null && clickedBoxes.get(0).getPiece().getIsWhite() == endBox.getPiece().getIsWhite()) {
+            if (endBox.getPiece() != null && startBox.getPiece().getIsWhite() == endBox.getPiece().getIsWhite()) {
                 return false;
             }
             return true;

@@ -5,8 +5,10 @@ import java.util.ArrayList;
 public class Pawn extends Piece {
     private int y;
 
+
     public Pawn(Game game, Player player, boolean isWhite, int boxId) {
         super(game, player, isWhite, boxId);
+
         if (!getIsWhite()) {
             y = 667 / 2;
         } else {
@@ -21,47 +23,35 @@ public class Pawn extends Piece {
         if (endBox.getPiece() != null && startBox.getPiece().getIsWhite() == endBox.getPiece().getIsWhite()) {
             return false;
         }
-
-
-        //checks movement pawn
-        if (!startBox.getPiece().getIsWhite() && startBox.getPiece() instanceof Pawn) {
-
-            if (startBox.getBoxId() < endBox.getBoxId() && endBox.getBoxId() == startBox.getBoxId() + 16 && startBox.getBoxId() < 16 && endBox.getPiece() == null) {
-                return true;
-            }
-            if (startBox.getBoxId() < endBox.getBoxId() && endBox.getBoxId() == startBox.getBoxId() + 8 && endBox.getPiece() == null) {
-
-                return true;
-            }
-            if (startBox.getBoxId() < endBox.getBoxId() && endBox.getBoxId() == startBox.getBoxId() + 7 && endBox.getPiece() != null) {
-
-                return true;
-            }
-            if (startBox.getBoxId() < endBox.getBoxId() && endBox.getBoxId() == startBox.getBoxId() + 9 && endBox.getPiece() != null) {
-
-                return true;
-            }
-        }
-        if (startBox.getPiece().getIsWhite() && startBox.getPiece() instanceof Pawn) {
-            if (startBox.getBoxId() > endBox.getBoxId() && endBox.getBoxId() == startBox.getBoxId() - 16 && startBox.getBoxId() > 45 && endBox.getPiece() == null) {
-                return true;
-            }
-            if (startBox.getBoxId() > endBox.getBoxId() && endBox.getBoxId() == startBox.getBoxId() - 8 && endBox.getPiece() == null) {
-
-                return true;
-            }
-            if (startBox.getBoxId() > endBox.getBoxId() && endBox.getBoxId() == startBox.getBoxId() - 7 && endBox.getPiece() != null) {
-
-                return true;
-            }
-            if (startBox.getBoxId() > endBox.getBoxId() && endBox.getBoxId() == startBox.getBoxId() - 9 && endBox.getPiece() != null) {
-
-                return true;
-            }
+        int xDif = Math.abs(startBox.getCol() - endBox.getCol());
+        int yDif = Math.abs(startBox.getRow() - endBox.getRow());
+        if (verticalDirections(startBox, endBox) == Directions.UP && !startBox.getPiece().getIsWhite()) {
+            return false;
+        } else if (verticalDirections(startBox, endBox) == Directions.DOWN && startBox.getPiece().getIsWhite()) {
+            return false;
         }
 
+        if (endBox.getPiece() != null && yDif > 1) {
+            return false;
+        } else if (endBox.getPiece() != null && movesDiagonal(startBox, endBox) && yDif == 1 && xDif == 1) {
+
+            return true;
+
+        } else if (endBox.getPiece() == null && yDif == 2 && countMovement == 0 && xDif == 0) {
+            //checks for pieces in path
+            for (Box box : game.getBoard().straightPath(startBox, endBox)) {
+                if (box.getPiece() != null) {
+                    return false;
+                }
+            }
+            return true;
+        } else if (endBox.getPiece() == null && yDif == 1 && xDif == 0) {
+
+            return true;
+        }
         return false;
     }
+
 
     public void drawPiece() {
 

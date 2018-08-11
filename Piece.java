@@ -10,6 +10,7 @@ public abstract class Piece {
     private PImage pieceImage = null;
     private int boxId;
     private Player player;
+    protected int countMovement;
 
 
     public Piece(Game game, Player player, boolean isWhite, int boxId) {
@@ -18,6 +19,7 @@ public abstract class Piece {
         this.player = player;
         this.isWhite = isWhite;
         this.boxId = boxId;
+        countMovement = 0;
 
 
     }
@@ -72,6 +74,19 @@ public abstract class Piece {
         return null;
     }
 
+    public boolean movesHorizontal(Box startBox, Box endBox) {
+        return startBox.getCol() == endBox.getCol() && startBox.getRow() != endBox.getRow();
+    }
+
+    public boolean movesVertical(Box startBox, Box endBox) {
+        return startBox.getCol() != endBox.getCol() && startBox.getRow() == endBox.getRow();
+    }
+
+    public boolean movesDiagonal(Box startBox, Box endBox) {
+        int column = Math.abs(startBox.getCol() - endBox.getCol());
+        int row = Math.abs(startBox.getRow() - endBox.getRow());
+        return row == column;
+    }
 
     public Enum<Directions> verticalDirections(Box startBox, Box endBox) {
 
@@ -86,6 +101,10 @@ public abstract class Piece {
     }
 
     public abstract boolean validateMove(Box startBox, Box endBox);
+
+    public void countingMovement() {
+        countMovement++;
+    }
 
     public Player getPlayer() {
         return player;
