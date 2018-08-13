@@ -9,7 +9,7 @@ public abstract class Piece {
     private char pieceName = 'p';
     private PImage pieceImage = null;
     private int boxId;
-    private Player player;
+    protected Player player;
     protected int countMovement;
 
 
@@ -121,5 +121,26 @@ public abstract class Piece {
     }
     public Player getPlayer() {
         return player;
+    }
+
+
+    public ArrayList<Box> posibleMoves() {
+        ArrayList<Box> posibleMoves = new ArrayList<>();
+
+        for (Box box : Board.getGrid()) {
+
+            if (this instanceof Pawn) {
+
+                if (((Pawn) this).posibleCaptureMove(this.getBox(), box)) {
+                    posibleMoves.add(box);
+                }
+
+            } else if (this.validateMove(this.getBox(), box)) {
+                posibleMoves.add(box);
+            }
+
+
+        }
+        return posibleMoves;
     }
 }

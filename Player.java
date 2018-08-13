@@ -9,6 +9,7 @@ public class Player {
     private boolean isWhite;
     private String playerName;
     private boolean isTurn;
+    private boolean hasLost = false;
 
 
     public Player(Game game, int color, boolean isWhite) {
@@ -36,8 +37,8 @@ public class Player {
             pieces.add(new Rook(game, this, false, 0));
             pieces.add(new Knight(game, this, false, 1));
             pieces.add(new Bishop(game, this, false, 2));
-            pieces.add(new King(game, this, false, 3));
-            pieces.add(new Queen(game, this, false, 4));
+            pieces.add(new King(game, this, false, 4));
+            pieces.add(new Queen(game, this, false, 3));
             pieces.add(new Bishop(game, this, false, 5));
             pieces.add(new Knight(game, this, false, 6));
             pieces.add(new Rook(game, this, false, 7));
@@ -50,8 +51,8 @@ public class Player {
             pieces.add(new Rook(game, this, true, 56));
             pieces.add(new Knight(game, this, true, 57));
             pieces.add(new Bishop(game, this, true, 58));
-            pieces.add(new King(game, this, true, 59));
-            pieces.add(new Queen(game, this, true, 60));
+            pieces.add(new King(game, this, true, 60));
+            pieces.add(new Queen(game, this, true, 59));
             pieces.add(new Bishop(game, this, true, 61));
             pieces.add(new Knight(game, this, true, 62));
             pieces.add(new Rook(game, this, true, 63));
@@ -60,6 +61,7 @@ public class Player {
     }
 
     public void drawPieces() {
+//        promote();
         for (Box box : Board.getGrid()) {
             for (Piece piece : pieces) {
                 if (box.getBoxId() == piece.getBoxId())
@@ -106,14 +108,50 @@ public class Player {
     }
 
     public void removePiece(Piece piece) {
-        if (piece instanceof King) {
-            game.setCurrentState(State.GAME_OVER);
-        }
         pieces.remove(piece);
     }
+
+    public King getKing() {
+        for (Piece piece : getPieces()) {
+            if (piece instanceof King)
+                return (King) piece;
+        }
+        return null;
+    }
+
+    public ArrayList<Pawn> getPawns() {
+
+        ArrayList<Pawn> pawns = new ArrayList<>();
+        for (Piece piece : getPieces()) {
+            if (piece instanceof Pawn) {
+
+                pawns.add((Pawn) piece);
+            }
+
+        }
+        return pawns;
+    }
+
+    public void promote() {
+        for (Pawn pawn : getPawns()) {
+            if (pawn.readyForPromotion()) {
+                getPieces().add(new Queen(pawn.game, pawn.player, pawn.getIsWhite(), pawn.getBoxId()));
+                getPawns().remove(pawn);
+            }
+        }
+    }
+
 
     @Override
     public String toString() {
         return playerName;
+    }
+
+    public boolean isHasLost() {
+        return hasLost;
+    }
+
+    public void setHasLost(boolean hasLost) {
+        this.hasLost = hasLost;
     }
 }

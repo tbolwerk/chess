@@ -10,14 +10,17 @@ public class King extends Piece {
         drawPiece();
     }
 
-
-    @Override
-    public boolean validateMove(Box startBox, Box endBox) {
-        if (endBox.getPiece() != null && startBox.getPiece().getIsWhite() == endBox.getPiece().getIsWhite()) {
-            return false;
+    public boolean isCheck(Box endBox) {
+        for (Piece piece : game.getOpponent(player).getPieces()) {
+            if (piece.posibleMoves().contains(endBox)) {
+                return true;
+            }
         }
 
+        return false;
+    }
 
+    public boolean movementOfKing(Box startBox, Box endBox) {
         if (endBox.getPiece() != null && startBox.getPiece().getIsWhite() == endBox.getPiece().getIsWhite()) {
             return false;
         }
@@ -28,10 +31,19 @@ public class King extends Piece {
         int xDif = Math.abs(xStart - xEnd);
         int yDif = Math.abs(yStart - yEnd);
         if (xDif > 1 || yDif > 1) {
-
             return false;
         }
         return true;
+    }
+
+
+    @Override
+    public boolean validateMove(Box startBox, Box endBox) {
+        if (movementOfKing(startBox, endBox) && !isCheck(endBox)) {
+            return true;
+        }
+        return false;
+
     }
 
     @Override
@@ -50,6 +62,17 @@ public class King extends Piece {
         super.setPieceImage(pieceImage);
         super.setPiece('K');
 
+    }
+
+    @Override
+    public ArrayList<Box> posibleMoves() {
+        ArrayList<Box> posibleMoves = new ArrayList<>();
+        for (Box box : Board.getGrid()) {
+            if (this.movementOfKing(this.getBox(), box)) {
+                posibleMoves.add(box);
+            }
+        }
+        return posibleMoves;
     }
 
     @Override

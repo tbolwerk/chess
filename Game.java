@@ -24,6 +24,8 @@ public class Game extends PApplet {
     private Computer computer2;
 
 
+    private String winner;
+
 
     public static void main(String args[]) {
         PApplet.main("Game");
@@ -47,6 +49,7 @@ public class Game extends PApplet {
     }
 
     public void draw() {
+        keyboardPressed();
         if (currentState == State.MENU) {
             button.drawRectangle();
         }
@@ -62,7 +65,7 @@ public class Game extends PApplet {
             }
         }
         if (currentState == State.GAME_OVER) {
-            background(0);
+
             fill(255);
             textSize(30);
             button.drawRectangle();
@@ -88,14 +91,14 @@ public class Game extends PApplet {
             board = new Board(this);
             board.initGrid();
             imageLoader = new ImageLoader(this, "pieces/chess_pieces.png");
-//            player = new Player(this, 125, true);
-//            player2 = new Player(this, 75, false);
+            player = new Player(this, 125, true);
+            player2 = new Player(this, 75, false);
             computer = new Computer(this, 75, false);
             computer2 = new Computer(this, 125, true);
 //            AI = new Ai(this,125,true);
 
 
-            players.add(computer2);
+            players.add(player);
             players.add(computer);
         }
 
@@ -110,12 +113,20 @@ public class Game extends PApplet {
             setup();
         } else if (currentState == State.GAME_OVER) {
             setup();
+
             if (button.overRect()) {
                 currentState = State.MENU;
             }
         }
 
 
+    }
+
+    public void keyboardPressed() {
+        if (keyPressed && key == ENTER) {
+            currentState = State.SETUP;
+            setup();
+        }
     }
 
     @Override
@@ -153,6 +164,23 @@ public class Game extends PApplet {
         }
     }
 
+    private void checksGameStateAfterTurn() {
+        for (Player player : Game.getPlayers()) {
+            if (player.isHasLost()) {
+                currentState = State.GAME_OVER;
+                gameover();
+            }
+        }
+    }
+
+    public Player getOpponent(Player ownPlayer) {
+        for (Player player : getPlayers()) {
+            if (!ownPlayer.equals(player)) {
+                return player;
+            }
+        }
+        return null;
+    }
 
     private void movePiece() {
 
@@ -163,6 +191,8 @@ public class Game extends PApplet {
 
 
         if (startBox.getPiece().validateMove(startBox, endBox)) {//checks if starting box has piece in it and if it makes a validmove
+
+
             if (checkIsTurn(startBox.getPiece().getPlayer())) {
                 if (endBox.getPiece() != null && startBox.getPiece().checkForCapture()) {//checks if endpoint has a piece in it + capture
                     removePiece();
@@ -173,11 +203,14 @@ public class Game extends PApplet {
                 startBox.getPiece().countingMovement();
                 clickedBoxes.get(1).setPiece(startBox.getPiece());
                 startBox.unSetPiece();
+                checksGameStateAfterTurn();
                 endTurn();
 
 
             }
+
         }
+
         }
 
 
@@ -220,15 +253,27 @@ public class Game extends PApplet {
         this.currentState = currentState;
     }
 
-    public String getWinner() {
-        String winner = "Draw";
+    public void setWinner(String winner) {
+        this.winner = winner;
+    }
+
+    private void gameover() {
         for (Player player : getPlayers()) {
-            for (Piece piece : player.getPieces()) {
-                if (piece instanceof King) {
-                    winner = player.toString();
-                }
+            if (!player.isHasLost()) {
+                setWinner(player.toString());
             }
         }
+
+    }
+
+
+
+    public String getWinner() {
         return winner;
+    }
+
+    public State getCurrentState() {
+
+        return currentState;
     }
 }

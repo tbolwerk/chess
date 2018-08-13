@@ -17,6 +17,26 @@ public class Pawn extends Piece {
         drawPiece();
     }
 
+    public boolean posibleCaptureMove(Box startBox, Box endBox) {
+        int xDif = Math.abs(startBox.getCol() - endBox.getCol());
+        int yDif = Math.abs(startBox.getRow() - endBox.getRow());
+
+        if (movesDiagonal(startBox, endBox) && yDif == 1 && xDif == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean captureMove(Box startBox, Box endBox) {
+
+
+        if (endBox.getPiece() != null && posibleCaptureMove(startBox, endBox)) {
+            return true;
+        }
+        return false;
+
+    }
+
 
     @Override
     public boolean validateMove(Box startBox, Box endBox) {
@@ -33,9 +53,8 @@ public class Pawn extends Piece {
 
         if (endBox.getPiece() != null && yDif > 1) {
             return false;
-        } else if (endBox.getPiece() != null && movesDiagonal(startBox, endBox) && yDif == 1 && xDif == 1) {
 
-            return true;
+
 
         } else if (endBox.getPiece() == null && yDif == 2 && countMovement == 0 && xDif == 0) {
             //checks for pieces in path
@@ -49,7 +68,8 @@ public class Pawn extends Piece {
 
             return true;
         }
-        return false;
+        return captureMove(startBox, endBox);
+
     }
 
     @Override
@@ -65,6 +85,12 @@ public class Pawn extends Piece {
         super.setPiece('P');
     }
 
+    public boolean readyForPromotion() {
+        if (this.getBox().getRow() == 0 || this.getBox().getRow() == 7) {
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public String toString() {

@@ -13,9 +13,12 @@ public class Computer extends Player implements AI {
         for (Piece piece : getPieces()) {
             for (Box box : Board.getGrid()) {
                 if (piece.validateMove(piece.getBox(), box)) {
+                    if (piece instanceof King && ((King) piece).isCheck(piece.getBox())) {
+                        return piece;
+                    }
 
                     if (box.getPiece() != null && box.getPiece().getIsWhite() != piece.getIsWhite()) {
-                        if (box.getPiece().valueOfPiece() > 4 || box.getPiece().valueOfPiece() == piece.valueOfPiece()) {
+                        if (box.getPiece().valueOfPiece() > 4 || box.getPiece().valueOfPiece() == piece.valueOfPiece() || box.getPiece().valueOfPiece() > piece.valueOfPiece()) {
                             return piece;
                         }
 
@@ -29,11 +32,19 @@ public class Computer extends Player implements AI {
             }
         }
         Random random = new Random();
-        Piece moveAblePiece = moveAblePieces.get(Math.abs(random.nextInt(moveAblePieces.size())));
+        if (moveAblePieces.size() < 1) {
+            return null;
+        }
+        int randomIndex = random.nextInt(moveAblePieces.size());
+        System.out.println(randomIndex);
+        Piece moveAblePiece = moveAblePieces.get(Math.abs(randomIndex));
         return moveAblePiece;
     }
 
     private Box getAvailableMove(Piece moveAblePiece) {
+        if (moveAblePiece == null) {
+            return null;
+        }
         ArrayList<Box> availableMoves = new ArrayList<>();
         Random random = new Random();
         for (Box box : Board.getGrid()) {
@@ -55,7 +66,9 @@ public class Computer extends Player implements AI {
 
         ArrayList<Box> output = new ArrayList<>();
 
-
+        if (getAvailablePiece() == null || getAvailableMove(getAvailablePiece()) == null) {
+            return null;
+        }
         output.add(getAvailablePiece().getBox());
         output.add(getAvailableMove(getAvailablePiece()));
         return output;
@@ -65,6 +78,10 @@ public class Computer extends Player implements AI {
     @Override
     public void makeMove() {
         if (getIsTurn()) {
+            if (makeDecision() == null) {
+                setHasLost(true);
+                return;
+            }
             if (makeDecision().size() < 2) {
                 makeDecision();
                 return;

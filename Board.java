@@ -83,6 +83,7 @@ public class Board {
         }
     }
 
+
     private ArrayList<Box> getOptionalBoxes(Box startBox) {
         ArrayList<Box> hightLightedOptions = new ArrayList<>();
         if (startBox != null && startBox.getPiece() != null) {
