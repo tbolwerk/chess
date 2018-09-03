@@ -11,6 +11,8 @@ public abstract class Piece {
     private int boxId;
     protected Player player;
     protected int countMovement;
+    private boolean isMoved;
+    private boolean isGettingCaptured;
 
 
     public Piece(Game game, Player player, boolean isWhite, int boxId) {
@@ -22,6 +24,10 @@ public abstract class Piece {
         countMovement = 0;
 
 
+    }
+
+    public void removePiece() {
+        getBox().unSetPiece();
     }
 
 
@@ -52,10 +58,12 @@ public abstract class Piece {
         this.boxId = boxId;
     }
 
-
     public boolean checkForCapture() {
         ArrayList<Box> clickedBoxes = game.getClickedBoxes();
         if (clickedBoxes.get(1).getPiece() != null && clickedBoxes.get(1).getPiece().getIsWhite() != clickedBoxes.get(0).getPiece().getIsWhite()) {
+//            if(clickedBoxes.get(0).getPiece() instanceof King && ((King) clickedBoxes.get(0).getPiece()).isCheck(clickedBoxes.get(1))){
+//                return false;
+//            }
             return true;
         }
         return false;
@@ -105,10 +113,34 @@ public abstract class Piece {
 
     public abstract int valueOfPiece();
 
+
     public void countingMovement() {
         countMovement++;
     }
 
+    public boolean validPath(Box startBox, Box endBox) {
+//        Box selectedBox = null;
+//        if(game.getClickedBoxes().size()!=0) {
+//           selectedBox=game.getClickedBoxes().get(0);
+//        }
+        for (Box box : game.getGameState().getBoard().straightPath(startBox, endBox)) {
+
+            if (box.getPiece() != null && !box.getPiece().isMoved() || box.getPiece() != null && !box.getPiece().isGettingCaptured()) {//&& box.getPiece()!= game.getClickedBoxes().get(0).getPiece()
+//                if(selectedBox != null && selectedBox != box) {
+
+                return false;
+//                }
+            }
+
+        }
+        for (Box box : game.getGameState().getBoard().diagonalPath(startBox, endBox)) {
+            if (box.getPiece() != null && !box.getPiece().isMoved() || box.getPiece() != null && !box.getPiece().isGettingCaptured()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     public Box getBox() {
 
@@ -123,6 +155,29 @@ public abstract class Piece {
         return player;
     }
 
+    public boolean isMoved() {
+        return isMoved;
+//        if(game.getClickedBoxes().size()>0){
+//        return game.getClickedBoxes().get(0).getPiece()==this && game.getClickedBoxes().get(0).getPiece() != null;
+//        }
+//        return false;
+    }
+
+    public boolean isGettingCaptured() {
+        return isGettingCaptured;
+//        if(game.getClickedBoxes().size()>1){
+//            return game.getClickedBoxes().get(1).getPiece()==this && game.getClickedBoxes().get(1) != null;
+//        }
+//        return false;
+    }
+
+    public void setIsGettingCaptured(boolean isGettingCaptured) {
+        this.isGettingCaptured = isGettingCaptured;
+    }
+
+    public void setIsMoved(boolean isMoved) {
+        this.isMoved = isMoved;
+    }
 
     public ArrayList<Box> posibleMoves() {
         ArrayList<Box> posibleMoves = new ArrayList<>();

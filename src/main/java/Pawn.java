@@ -6,6 +6,7 @@ public class Pawn extends Piece {
     private int y;
 
 
+
     public Pawn(Game game, Player player, boolean isWhite, int boxId) {
         super(game, player, isWhite, boxId);
 
@@ -58,7 +59,7 @@ public class Pawn extends Piece {
 
         } else if (endBox.getPiece() == null && yDif == 2 && countMovement == 0 && xDif == 0) {
             //checks for pieces in path
-            for (Box box : game.getBoard().straightPath(startBox, endBox)) {
+            for (Box box : game.getGameState().getBoard().straightPath(startBox, endBox)) {
                 if (box.getPiece() != null) {
                     return false;
                 }
@@ -79,8 +80,7 @@ public class Pawn extends Piece {
 
 
     public void drawPiece() {
-
-        PImage pieceImage = game.getImageLoader().getImage((2000 / 6) * 5, y, 2000 / 6, 667 / 2);
+        PImage pieceImage = game.getGameState().getImageLoader().getImage((2000 / 6) * 5, y, 2000 / 6, 667 / 2);
         super.setPieceImage(pieceImage);
         super.setPiece('P');
     }

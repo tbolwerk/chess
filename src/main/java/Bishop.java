@@ -17,22 +17,9 @@ public class Bishop extends Piece {
         if (endBox.getPiece() != null && startBox.getPiece().getIsWhite() == endBox.getPiece().getIsWhite()) {
             return false;
         }
+        return movesDiagonal(startBox, endBox) && validPath(startBox, endBox);
 
 
-        if (movesDiagonal(startBox, endBox)) {
-            for (Box box : game.getBoard().diagonalPath(startBox, endBox)) {
-                if (box.getPiece() != null) {
-
-                    System.out.println(box.getPiece().toString());
-                    return false;
-                }
-            }
-            if (endBox.getPiece() != null && startBox.getPiece().getIsWhite() == endBox.getPiece().getIsWhite()) {
-                return false;
-            }
-            return true;
-        }
-        return false;
     }
 
     @Override
@@ -47,7 +34,7 @@ public class Bishop extends Piece {
         } else {
             y = 0;
         }
-        PImage pieceImage = game.getImageLoader().getImage((2000 / 6) * 2, y, 2000 / 6, 667 / 2);
+        PImage pieceImage = game.getGameState().getImageLoader().getImage((2000 / 6) * 2, y, 2000 / 6, 667 / 2);
         super.setPieceImage(pieceImage);
         setPiece('B');
     }

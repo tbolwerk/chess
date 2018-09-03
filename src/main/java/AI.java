@@ -16,4 +16,6 @@ public interface AI {
      * @return the move that was made as a String
      */
     public void makeMove();
+
+    public boolean checksForCapture(Box endbox);
 }

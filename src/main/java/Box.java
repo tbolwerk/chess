@@ -1,21 +1,24 @@
+import java.awt.*;
+
 public class Box {
     private Game game;
     private int boxId;
 
     private int col;
     private int row;
-    private int color;
-    private int selectedColor = 125;
-    private int clickedColor = 200;
-    private int optionColor = 0x00FF7F;
-    private int drawColor;
+    private Color color;
+    private Color selectedColor = Color.decode("#FF5733");
+    private Color clickedColor = Color.decode("#baca44");
+    private Color optionColor = Color.decode("0x00FF7F");
+    private Color drawColor;
     private boolean isSelected;
     private boolean isClicked;
     private boolean isOption;
     private boolean isHighlighted;
 
     private Piece piece = null;
-    public Box(Game game, int boxId, int row, int col, int color) {
+
+    public Box(Game game, int boxId, int row, int col, Color color) {
         this.game = game;
         this.boxId = boxId;
         this.col = col;
@@ -38,10 +41,11 @@ public class Box {
         } else {
             drawColor = color;
         }
-        game.fill(drawColor);
+        game.fill(drawColor.getRGB());
         if (isOption) {
             game.fill(0, 255, 0);
         }
+        game.noStroke();
         game.rect(boxWidth() * col, boxHeight() * row, boxWidth(), boxHeight());
 //        debugBox();
 
@@ -50,15 +54,15 @@ public class Box {
     }
 
     private float boxWidth() {
-        return Game.getGAMEWIDTH() / 8;
+        return Game.getGAMEWIDTH() / Board.getNROFBOX();
     }
 
     private float boxHeight() {
-        return Game.getGAMEHEIGHT() / 8;
+        return Game.getGAMEHEIGHT() / Board.getNROFBOX();
     }
 
 
-    public int getColor() {
+    public Color getColor() {
         return color;
     }
 
@@ -87,13 +91,13 @@ public class Box {
         this.isOption = isOption;
     }
 
-    public void setSelectedColor(int selectedColor) {
+    public void setSelectedColor(Color selectedColor) {
         this.selectedColor = selectedColor;
     }
 
     public void debugBox() {
         if (isSelected && getPiece() != null || isClicked && getPiece() != null) {
-            System.out.println(piece.toString());
+//            System.out.println(piece.toString());
         }
     }
 

@@ -60,14 +60,29 @@ public class Player {
 
     }
 
+
     public void drawPieces() {
-//        promote();
+        promote();
+
         for (Box box : Board.getGrid()) {
             for (Piece piece : pieces) {
                 if (box.getBoxId() == piece.getBoxId())
                     box.setPiece(piece);
             }
         }
+        if (getKing() == null || isCheckMate()) {
+            hasLost = true;
+        }
+    }
+
+    private boolean isCheckMate() {
+        int countsPieces = 0;
+        for (Piece piece : pieces) {
+            if (piece.posibleMoves().size() == 0) {
+                countsPieces++;
+            }
+        }
+        return countsPieces == pieces.size();
     }
 
 
@@ -137,10 +152,27 @@ public class Player {
             if (pawn.readyForPromotion()) {
                 getPieces().add(new Queen(pawn.game, pawn.player, pawn.getIsWhite(), pawn.getBoxId()));
                 getPawns().remove(pawn);
+                pawn.removePiece();
+                removePiece(pawn);
             }
         }
     }
 
+    public void castle() {
+        Piece temp;
+        if (getKing().isAbleToCastle()) {
+
+        }
+    }
+
+    public void removeAllPieces() {
+        for (Piece piece : pieces) {
+
+            removePiece(piece);
+            piece.getBox().unSetPiece();
+        }
+//        pieces.clear();
+    }
 
     @Override
     public String toString() {

@@ -1,14 +1,16 @@
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Board {
     private static ArrayList<Box> grid = new ArrayList<Box>();
     private Game game;
-    private int color = 255;
-    private int boxId = 0;
-    final private int BLACKBOX = 50;
-    final private int WHITEBOX = 255;
 
+    private int boxId = 0;
+    private final static int NROFBOX = 8;
+    final private Color BLACKBOX = Color.decode("#769656");
+    final private Color WHITEBOX = Color.decode("#eeeed2");
     private ArrayList<Box> optionalBoxes = new ArrayList<>();
+    private Color color = WHITEBOX;
 
     public Board(Game game) {
         this.game = game;
@@ -18,16 +20,8 @@ public class Board {
         return grid;
     }
 
-    public void initGrid() {
-        for (int row = 0; row < 8; row++) {
-            switchColor();
-            for (int col = 0; col < 8; col++) {
-                switchColor();
-                grid.add(new Box(game, boxId, row, col, color));
-                boxId++;
-
-            }
-        }
+    public static void setGrid(ArrayList<Box> grid) {
+        Board.grid = grid;
     }
 
     public boolean boxSelected(Box box) {
@@ -47,8 +41,6 @@ public class Board {
             box.drawBox();
 
         }
-
-
 
 
     }
@@ -205,5 +197,19 @@ public class Board {
         return path;
     }
 
+    public static int getNROFBOX() {
+        return NROFBOX;
+    }
 
+    public void initGrid() {
+        for (int row = 0; row < NROFBOX; row++) {
+            switchColor();
+            for (int col = 0; col < NROFBOX; col++) {
+                switchColor();
+                grid.add(new Box(game, boxId, row, col, color));
+                boxId++;
+
+            }
+        }
+    }
 }

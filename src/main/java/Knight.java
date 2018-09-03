@@ -34,7 +34,7 @@ public class Knight extends Piece {
         int y2 = endBox.getRow();
         int yDif = y1 - y2;
         int xDif = x1 - x2;
-        System.out.println(xDif + " " + yDif);
+//        System.out.println(xDif + " " + yDif);
         for (Point point : cords) {
             if (point.x == xDif && point.y == yDif) {
                 return true;
@@ -55,7 +55,7 @@ public class Knight extends Piece {
         } else {
             y = 0;
         }
-        PImage pieceImage = game.getImageLoader().getImage((2000 / 6) * 3, y, 2000 / 6, 667 / 2);
+        PImage pieceImage = game.getGameState().getImageLoader().getImage((2000 / 6) * 3, y, 2000 / 6, 667 / 2);
         super.setPieceImage(pieceImage);
         super.setPiece('H');
 
