@@ -41,7 +41,8 @@ public class GameState extends State {
         Game.getPlayers().clear();
         Game.getPlayers().add(player);
         Game.getPlayers().add(computer);
-        FENParser.printFENArray();
+//        FENParser.printFENArray();
+        FENParser.printFENArrayValue();
     }
 
 

@@ -34,6 +34,49 @@ public class Box {
 
     }
 
+    public char getFENNotationColumn() {
+        char column = ' ';
+        if (col % 8 == 0) {
+            column = 'A';
+        } else if (col % 8 == 1) {
+            column = 'B';
+        } else if (col % 8 == 2) {
+            column = 'C';
+        } else if (col % 8 == 3) {
+            column = 'D';
+        } else if (col % 8 == 4) {
+            column = 'E';
+        } else if (col % 8 == 5) {
+            column = 'F';
+        } else if (col % 8 == 6) {
+            column = 'G';
+        } else if (col % 8 == 7) {
+            column = 'H';
+        }
+        return column;
+    }
+
+    public int getFENNotationRow() {
+        int rownumber = 0;
+        if (row == 0) {
+            rownumber = 8;
+        } else if (row == 1) {
+            rownumber = 7;
+        } else if (row == 2) {
+            rownumber = 6;
+        } else if (row == 3) {
+            rownumber = 5;
+        } else if (row == 4) {
+            rownumber = 4;
+        } else if (row == 5) {
+            rownumber = 3;
+        } else if (row == 6) {
+            rownumber = 2;
+        } else if (row == 7) {
+            rownumber = 1;
+        }
+        return rownumber;
+    }
 
     public void drawBox() {
         if (isClicked) {
@@ -132,5 +175,13 @@ public class Box {
 
     public boolean isHighlighted() {
         return isHighlighted;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder fenNotationPosistion = new StringBuilder();
+        fenNotationPosistion.append(getFENNotationColumn());
+        fenNotationPosistion.append(getFENNotationRow());
+        return fenNotationPosistion.toString();
     }
 }

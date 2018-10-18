@@ -209,9 +209,10 @@ public class Game extends PApplet {
                 startBox.getPiece().setBoxId(newBoxId);
                 startBox.getPiece().countingMovement();
                 clickedBoxes.get(1).setPiece(startBox.getPiece());
+                System.out.println(clickedBoxes.get(1).toString());
                 startBox.unSetPiece();
                 checksGameStateAfterTurn();
-                FENParser.printFENArray();
+                FENParser.printFENArrayValue();
                 endTurn();
 
 

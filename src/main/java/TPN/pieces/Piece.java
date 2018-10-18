@@ -49,6 +49,10 @@ public abstract class Piece {
         pieceName = letter;
     }
 
+    public char getPieceName() {
+        return pieceName;
+    }
+
     protected void setPieceImage(PImage image) {
         pieceImage = image;
     }
