@@ -27,7 +27,7 @@ public class Bishop extends Piece {
 
     @Override
     public int valueOfPiece() {
-        return 2;
+        return 4;
     }
 
 

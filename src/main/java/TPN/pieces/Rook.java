@@ -24,7 +24,7 @@ public class Rook extends Piece {
 
     @Override
     public int valueOfPiece() {
-        return 3;
+        return 2;
     }
 
 

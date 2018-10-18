@@ -2,6 +2,7 @@ package TPN.states;
 
 import TPN.Game;
 import TPN.board.Board;
+import TPN.moves.FENParser;
 import TPN.players.AI;
 import TPN.players.Computer;
 import TPN.players.Player;
@@ -38,9 +39,9 @@ public class GameState extends State {
 //            src.main.java.TPN.AI = new Ai(this,125,true);
 
         Game.getPlayers().clear();
-        Game.getPlayers().add(computer2);
+        Game.getPlayers().add(player);
         Game.getPlayers().add(computer);
-
+        FENParser.printFENArray();
     }
 
 

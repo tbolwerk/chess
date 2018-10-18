@@ -50,7 +50,7 @@ public class Knight extends Piece {
 
     @Override
     public int valueOfPiece() {
-        return 4;
+        return 3;
     }
 
 

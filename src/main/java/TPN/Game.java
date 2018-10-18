@@ -2,6 +2,7 @@ package TPN;
 
 import TPN.board.Board;
 import TPN.board.Box;
+import TPN.moves.FENParser;
 import TPN.pieces.King;
 import TPN.pieces.Piece;
 import TPN.players.Player;
@@ -59,6 +60,7 @@ public class Game extends PApplet {
     public void draw() {
 //        System.out.println(src.main.java.TPN.State.getCurrentState());
         State.getCurrentState().draw();
+
 
 //        System.out.println(src.main.java.TPN.State.getCurrentState().toString());
 
@@ -209,6 +211,7 @@ public class Game extends PApplet {
                 clickedBoxes.get(1).setPiece(startBox.getPiece());
                 startBox.unSetPiece();
                 checksGameStateAfterTurn();
+                FENParser.printFENArray();
                 endTurn();
 
 
