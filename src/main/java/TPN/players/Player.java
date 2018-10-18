@@ -1,9 +1,14 @@
-package src.main.java.TPN;
+package TPN.players;
+
+import TPN.Game;
+import TPN.board.Board;
+import TPN.board.Box;
+import TPN.pieces.*;
 
 import java.util.ArrayList;
 
 public class Player {
-    final int PAWNS = 8;
+    final private int PAWNS = 8;
     private int color;
     private ArrayList<Piece> pieces = new ArrayList<Piece>();
     protected Game game;
@@ -152,7 +157,7 @@ public class Player {
     public void promote() {
         for (Pawn pawn : getPawns()) {
             if (pawn.readyForPromotion()) {
-                getPieces().add(new Queen(pawn.game, pawn.player, pawn.getIsWhite(), pawn.getBoxId()));
+                getPieces().add(new Queen(game, this, pawn.getIsWhite(), pawn.getBoxId()));
                 getPawns().remove(pawn);
                 pawn.removePiece();
                 removePiece(pawn);

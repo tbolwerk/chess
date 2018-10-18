@@ -1,4 +1,10 @@
-package src.main.java.TPN;
+package TPN.players;
+
+import TPN.Game;
+import TPN.board.Board;
+import TPN.board.Box;
+import TPN.pieces.King;
+import TPN.pieces.Piece;
 
 import java.util.ArrayList;
 import java.util.Random;

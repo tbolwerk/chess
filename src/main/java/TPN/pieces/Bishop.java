@@ -1,5 +1,8 @@
-package src.main.java.TPN;
+package TPN.pieces;
 
+import TPN.Game;
+import TPN.board.Box;
+import TPN.players.Player;
 import processing.core.PImage;
 
 public class Bishop extends Piece {

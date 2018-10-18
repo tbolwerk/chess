@@ -1,11 +1,15 @@
-package src.main.java.TPN;
+package TPN.pieces;
 
+import TPN.Game;
+import TPN.board.Box;
+import TPN.players.Player;
 import processing.core.PImage;
 
-public class Rook extends Piece {
+@SuppressWarnings("ALL")
+public class Queen extends Piece {
     private int y;
 
-    public Rook(Game game, Player player, boolean isWhite, int boxId) {
+    public Queen(Game game, Player player, boolean isWhite, int boxId) {
         super(game, player, isWhite, boxId);
         drawPiece();
     }
@@ -13,15 +17,18 @@ public class Rook extends Piece {
 
     @Override
     public boolean validateMove(Box startBox, Box endBox) {
+
+
         if (endBox.getPiece() != null && startBox.getPiece().getIsWhite() == endBox.getPiece().getIsWhite()) {
             return false;
         }
-        return validPath(startBox, endBox) && movesHorizontal(startBox, endBox) || validPath(startBox, endBox) && movesVertical(startBox, endBox);
+        return movesVertical(startBox, endBox) && validPath(startBox, endBox) || movesDiagonal(startBox, endBox) && validPath(startBox, endBox) || movesHorizontal(startBox, endBox) && validPath(startBox, endBox);
+
     }
 
     @Override
     public int valueOfPiece() {
-        return 3;
+        return 5;
     }
 
 
@@ -31,13 +38,13 @@ public class Rook extends Piece {
         } else {
             y = 0;
         }
-        PImage pieceImage = game.getGameState().getImageLoader().getImage((2000 / 6) * 4, y, 2000 / 6, 667 / 2);
+        PImage pieceImage = game.getGameState().getImageLoader().getImage(2000 / 6, y, 2000 / 6, 667 / 2);
         super.setPieceImage(pieceImage);
-        super.setPiece('R');
+        super.setPiece('Q');
     }
 
     @Override
     public String toString() {
-        return "src.main.java.TPN.Rook";
+        return "Queen";
     }
 }

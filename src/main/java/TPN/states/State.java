@@ -1,4 +1,8 @@
-package src.main.java.TPN;
+package TPN.states;
+
+import TPN.Game;
+import TPN.board.Board;
+import TPN.ui.Button;
 
 public abstract class State {
     protected static Board board;

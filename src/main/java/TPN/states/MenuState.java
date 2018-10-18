@@ -1,4 +1,7 @@
-package src.main.java.TPN;
+package TPN.states;
+
+import TPN.Game;
+import TPN.ui.Button;
 
 public class MenuState extends State {
 
@@ -16,7 +19,7 @@ public class MenuState extends State {
         button.setColor(100);
         button.setTextColor(120);
         button.setSelectColor(123);
-        button.setText("Start src.main.java.TPN.Game");
+        button.setText("Start Game");
     }
 
     public Button getButton() {
@@ -29,6 +32,6 @@ public class MenuState extends State {
 
     @Override
     public String toString() {
-        return "src.main.java.TPN.MenuState";
+        return "MenuState";
     }
 }

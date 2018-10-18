@@ -1,5 +1,8 @@
-package src.main.java.TPN;
+package TPN.pieces;
 
+import TPN.Game;
+import TPN.board.Box;
+import TPN.players.Player;
 import processing.core.PImage;
 
 import java.awt.*;
@@ -65,6 +68,6 @@ public class Knight extends Piece {
 
     @Override
     public String toString() {
-        return "src.main.java.TPN.Knight";
+        return "Knight";
     }
 }

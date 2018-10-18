@@ -1,4 +1,7 @@
-package src.main.java.TPN;
+package TPN.board;
+
+import TPN.Game;
+import TPN.pieces.Piece;
 
 import java.awt.*;
 

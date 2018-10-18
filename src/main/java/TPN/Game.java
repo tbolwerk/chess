@@ -1,5 +1,14 @@
-package src.main.java.TPN;
+package TPN;
 
+import TPN.board.Board;
+import TPN.board.Box;
+import TPN.pieces.King;
+import TPN.pieces.Piece;
+import TPN.players.Player;
+import TPN.states.GameOverState;
+import TPN.states.GameState;
+import TPN.states.MenuState;
+import TPN.states.State;
 import processing.core.PApplet;
 
 import java.util.ArrayList;
@@ -26,7 +35,7 @@ public class Game extends PApplet {
 
 
     public static void main(String args[]) {
-        PApplet.main("src.main.java.TPN.Game");
+        PApplet.main("TPN.Game");
 
     }
 

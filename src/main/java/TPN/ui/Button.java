@@ -1,7 +1,9 @@
-package src.main.java.TPN;
+package TPN.ui;
+
+import TPN.Game;
 
 public class Button {
-    int x, y, width, height, diameter;
+    private int x, y, width, height, diameter;
     private Game game;
     private int color;
     private int textColor;
@@ -58,7 +60,7 @@ public class Button {
     }
 
 
-    boolean overRect() {
+    public boolean overRect() {
         if (game.mouseX >= x && game.mouseX <= x + width &&
                 game.mouseY >= y && game.mouseY <= y + height) {
             return true;
@@ -67,7 +69,7 @@ public class Button {
         }
     }
 
-    boolean overCircle(int diameter) {
+    public boolean overCircle(int diameter) {
         float disX = x - game.mouseX;
         float disY = y - game.mouseY;
         if (Game.sqrt(Game.sq(disX) + Game.sq(disY)) < diameter / 2) {

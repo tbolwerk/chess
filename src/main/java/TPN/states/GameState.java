@@ -1,6 +1,12 @@
-package src.main.java.TPN;
+package TPN.states;
 
-import java.util.ArrayList;
+import TPN.Game;
+import TPN.board.Board;
+import TPN.players.AI;
+import TPN.players.Computer;
+import TPN.players.Player;
+import TPN.ui.Button;
+import TPN.ui.ImageLoader;
 
 public class GameState extends State {
 
@@ -68,6 +74,6 @@ public class GameState extends State {
 
     @Override
     public String toString() {
-        return "src.main.java.TPN.GameState";
+        return "GameState";
     }
 }

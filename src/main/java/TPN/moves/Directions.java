@@ -1,4 +1,4 @@
-package src.main.java.TPN;
+package TPN.moves;
 
 public enum Directions {
     UP, DOWN, LEFT, RIGHT

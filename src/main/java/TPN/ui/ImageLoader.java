@@ -1,5 +1,6 @@
-package src.main.java.TPN;
+package TPN.ui;
 
+import TPN.Game;
 import processing.core.PImage;
 
 public class ImageLoader {

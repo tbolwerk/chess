@@ -1,4 +1,6 @@
-package src.main.java.TPN;
+package TPN.players;
+
+import TPN.board.Box;
 
 /**
  * The public interface src.main.java.TPN.AI provides a single method

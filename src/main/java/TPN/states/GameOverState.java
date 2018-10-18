@@ -1,4 +1,8 @@
-package src.main.java.TPN;
+package TPN.states;
+
+import TPN.Game;
+import TPN.players.Player;
+import TPN.ui.Button;
 
 public class GameOverState extends State {
 
@@ -43,7 +47,7 @@ public class GameOverState extends State {
         button.setColor(100);
         button.setTextColor(120);
         button.setSelectColor(123);
-        button.setText("New src.main.java.TPN.Game");
+        button.setText("New Game");
     }
 
 
@@ -55,7 +59,7 @@ public class GameOverState extends State {
         game.fill(255);
         game.textSize(30);
         button.drawRectangle();
-        game.text("src.main.java.TPN.Game over " + game.getWinner() + " won!", (Game.getGAMEWIDTH() / 3) - (Game.getGAMEWIDTH() / 3) / 2, Game.getGAMEHEIGHT() / 3);
+        game.text("Game over " + game.getWinner() + " won!", (Game.getGAMEWIDTH() / 3) - (Game.getGAMEWIDTH() / 3) / 2, Game.getGAMEHEIGHT() / 3);
 //        game.background(0);
     }
 
@@ -65,7 +69,7 @@ public class GameOverState extends State {
 
     @Override
     public String toString() {
-        return "src.main.java.TPN.GameOverState";
+        return "GameOverState";
     }
 
 

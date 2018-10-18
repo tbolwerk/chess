@@ -1,5 +1,10 @@
-package src.main.java.TPN;
+package TPN.pieces;
 
+import TPN.Game;
+import TPN.board.Board;
+import TPN.board.Box;
+import TPN.moves.Directions;
+import TPN.players.Player;
 import processing.core.PImage;
 
 import java.util.ArrayList;
