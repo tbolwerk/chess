@@ -14,12 +14,12 @@ public class GameState extends State {
     private ImageLoader imageLoader;
 
     //    private src.main.java.TPN.Board board;
-    private Player player;
-    private Player player2;
-    private Computer computer;
-    private Computer computer2;
-    private StockFishAI stockFishAI;
-    private StockFishAI stockFishAI2;
+    private Player whitePlayer;
+    private Player blackPlayer;
+    private Computer blackComputer;
+    private Computer whiteComputer;
+    private StockFishAI blackStockFishAI;
+    private StockFishAI whiteStockFishAI;
 
 
     private static int countMoves;
@@ -38,19 +38,20 @@ public class GameState extends State {
         board.initGrid();
         countMoves = 0;
         imageLoader = new ImageLoader(game, "pieces/chess_pieces.png");
-        player = new Player(game, 125, true);
-        player2 = new Player(game, 75, false);
-        computer = new Computer(game, 75, false);
-        computer2 = new Computer(game, 125, true);
-        stockFishAI = new StockFishAI(game, 75, false);
-        stockFishAI2 = new StockFishAI(game, 125, true);
+        whitePlayer = new Player(game, 125, true);
+        blackPlayer = new Player(game, 75, false);
+        blackComputer = new Computer(game, 75, false);
+        whiteComputer = new Computer(game, 125, true);
+        blackStockFishAI = new StockFishAI(game, 75, false);
+        whiteStockFishAI = new StockFishAI(game, 125, true);
 
 //            src.main.java.TPN.AI = new Ai(this,125,true);
 
         Game.getPlayers().clear();
-        Game.getPlayers().add(player);
-        Game.getPlayers().add(stockFishAI);
+        Game.getPlayers().add(whiteComputer);
+        Game.getPlayers().add(blackStockFishAI);
         for (Player player : Game.getPlayers()) {
+            player.initPieces();
             player.drawPieces();
         }
 //        FENParser.printFENArray();

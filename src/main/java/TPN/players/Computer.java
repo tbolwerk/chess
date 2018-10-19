@@ -130,4 +130,9 @@ public class Computer extends Player implements AI {
 
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "Computer";
+    }
 }

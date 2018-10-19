@@ -35,7 +35,7 @@ public class Board {
     }
 
 
-    public void drawGrid() {
+        public void drawGrid () {
         for (Box box : grid) {
 
             if (boxSelected(box)) {

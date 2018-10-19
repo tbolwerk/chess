@@ -34,11 +34,11 @@ public class Player {
             this.isWhite = false;
             this.isTurn = false;
         }
-        initPieces();
+
 
     }
 
-    private void initPieces() {
+    public void initPieces() {
         if (isBlack) {
             for (int i = 8; i < 8 + PAWNS; i++) {
                 pieces.add(new Pawn(game, this, false, i));
@@ -187,7 +187,7 @@ public class Player {
 
     @Override
     public String toString() {
-        return playerName;
+        return "Human player";
     }
 
     public boolean isHasLost() {
@@ -197,4 +197,5 @@ public class Player {
     public void setHasLost(boolean hasLost) {
         this.hasLost = hasLost;
     }
+
 }

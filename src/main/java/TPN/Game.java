@@ -103,6 +103,9 @@ public class Game extends PApplet {
 
     @Override
     public void mouseClicked() {
+        if(State.getCurrentState() == menuState){
+
+        }
         if (State.getCurrentState().getButton() != null && State.getCurrentState().getButton().overRect()) {
 
             State.setCurrentState(gameState);

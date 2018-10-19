@@ -69,9 +69,17 @@ public class StockFish {
         this.sendCommand("position fen " + fen);
         this.sendCommand("go movetime " + waitTime);
         String output = this.getOutput(waitTime + EXTRAWAITTIME);
-        System.out.println(output.split("bestmove ")[1].split(" ")[0]);
-//        System.out.println(this.getOutput(waitTime));
-        return output.split("bestmove ")[1].split(" ")[0];
+        System.out.println(output);
+        if(!output.contains("bestmove ")){
+            return null;
+        }
+        String bestmove = output.split("bestmove ")[1].split(" ")[0];
+
+        if(bestmove.toCharArray().length == 4){
+            return bestmove;
+        }else {
+            return null;
+        }
     }
 
     public void stopEngine() {

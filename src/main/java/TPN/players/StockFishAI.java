@@ -68,12 +68,14 @@ public class StockFishAI extends Player implements AI {
 //            System.out.println(bestmoveSTOCKFISH.get(0).toString());
 //            System.out.println(bestmoveSTOCKFISH.get(1).toString());
         } else {
-            bestmoveSTOCKFISH = FenConverter(stockFish.getBestMove(game.getOpponent(this).getLastMoveInFenNotation(), 100));
+            String fenpos = stockFish.getBestMove(game.getOpponent(this).getLastMoveInFenNotation(), 100);
+            if (fenpos == null){
+                setHasLost(true);
+            return;
+        }
+            bestmoveSTOCKFISH = FenConverter(fenpos);
 
-            if (bestmoveSTOCKFISH != null && bestmoveSTOCKFISH.size() < 2) {
-                makeMove();
-                return;
-            }
+
         }
 
         if (bestmoveSTOCKFISH != null && bestmoveSTOCKFISH.size() > 1) {
@@ -97,5 +99,10 @@ public class StockFishAI extends Player implements AI {
     @Override
     public boolean checksForCapture(Box endbox) {
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "StockFish";
     }
 }
