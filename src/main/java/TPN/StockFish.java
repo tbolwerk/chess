@@ -1,5 +1,7 @@
 package TPN;
 
+import TPN.ui.Main;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -7,7 +9,7 @@ import java.io.OutputStreamWriter;
 
 public class StockFish {
 
-    private static final String PATH = "C:/Users/twanb/Desktop/chess/src/main/resources/engine/stockfish.exe";
+    private static final String PATH =Main.getStockfish();
     private Process engineProcess;
     private BufferedReader processReader;
     private OutputStreamWriter processWriter;

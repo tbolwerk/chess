@@ -48,7 +48,7 @@ public class GameState extends State {
 //            src.main.java.TPN.AI = new Ai(this,125,true);
 
         Game.getPlayers().clear();
-        Game.getPlayers().add(stockFishAI2);
+        Game.getPlayers().add(player);
         Game.getPlayers().add(stockFishAI);
         for (Player player : Game.getPlayers()) {
             player.drawPieces();

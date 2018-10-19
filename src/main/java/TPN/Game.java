@@ -12,8 +12,11 @@ import TPN.states.GameOverState;
 import TPN.states.GameState;
 import TPN.states.MenuState;
 import TPN.states.State;
+import TPN.ui.Main;
 import processing.core.PApplet;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 
@@ -39,6 +42,15 @@ public class Game extends PApplet {
 
     public static void main(String args[]) {
         PApplet.main("TPN.Game");
+
+        try {
+            Main.main(args);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
@@ -157,7 +169,7 @@ public class Game extends PApplet {
             for (Piece piece : player.getPieces()) {
                 if (piece instanceof King) {
                     if (((King) piece).isCheckMate()) {
-                        gameover();
+//                        gameover();
                     }
                 }
             }
