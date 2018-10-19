@@ -62,7 +62,7 @@ public class Knight extends Piece {
         }
         PImage pieceImage = game.getGameState().getImageLoader().getImage((2000 / 6) * 3, y, 2000 / 6, 667 / 2);
         super.setPieceImage(pieceImage);
-        super.setPiece('H');
+        super.setPiece('N');
 
     }
 

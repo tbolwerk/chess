@@ -3,6 +3,7 @@ package TPN.players;
 import TPN.Game;
 import TPN.board.Board;
 import TPN.board.Box;
+import TPN.moves.MoveParser;
 import TPN.pieces.*;
 
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class Player {
             this.isTurn = false;
         }
         initPieces();
+
     }
 
     private void initPieces() {
@@ -92,7 +94,9 @@ public class Player {
         return countsPieces == pieces.size();
     }
 
-
+    public String getLastMoveInFenNotation() {
+        return MoveParser.getLastMove();
+    }
     public int getColor() {
         return color;
     }

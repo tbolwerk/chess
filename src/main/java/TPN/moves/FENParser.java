@@ -9,6 +9,8 @@ import TPN.states.GameState;
 public class FENParser {
     private static int turncounter = 0;
     private static int halfmovecounter = 0;
+    private static boolean enPassantEnabled = false;
+    private static boolean castlingEnabled = false;
     private static String EnPassantFENPosistion = " -";
     private static int[][] fenArrayValue() {
         int[][] myArray = new int[8][8];
@@ -34,6 +36,13 @@ public class FENParser {
         return myArray;
     }
 
+    public static void setCastlingEnabled(boolean castlingEnabled) {
+        FENParser.castlingEnabled = castlingEnabled;
+    }
+
+    public static boolean isEnPassantEnabled() {
+        return enPassantEnabled;
+    }
 
     @SuppressWarnings("Duplicates")
     private static char[][] fenArray() {
@@ -82,7 +91,7 @@ public class FENParser {
                 System.out.print(fenArrayValue()[r][c] + " ");
             System.out.println();
         }
-        System.out.println(MoveClockFENNotation());
+        System.out.println(MoveParser.getLastMove());
     }
 
     private static String translateFENNotation() {
@@ -149,7 +158,10 @@ public class FENParser {
     private static String CastlingAvailabilityFENNotation() {
         StringBuilder myString = new StringBuilder();
         myString.append(turnIndicatorFENNotation());
-        myString.append(" -");
+        if (castlingEnabled) {
+            myString.append(" KQkq");
+        } else
+            myString.append(" -");
         return myString.toString();
     }
 
@@ -160,11 +172,15 @@ public class FENParser {
     private static String EnpassantFENNotation() {
         StringBuilder myString = new StringBuilder();
         myString.append(CastlingAvailabilityFENNotation());
-        myString.append(EnPassantFENPosistion);
+        if (enPassantEnabled) {
+            myString.append(EnPassantFENPosistion);
+        } else
+            myString.append(" -");
+
         return myString.toString();
     }
 
-    private static String MoveClockFENNotation() {
+    public static String MoveClockFENNotation() {
         StringBuilder myString = new StringBuilder();
         if (GameState.getCountHalfMoves() % 2 == 0) {
             halfmovecounter = GameState.getCountHalfMoves() / 2;

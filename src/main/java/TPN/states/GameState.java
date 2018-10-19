@@ -2,10 +2,10 @@ package TPN.states;
 
 import TPN.Game;
 import TPN.board.Board;
-import TPN.moves.FENParser;
 import TPN.players.AI;
 import TPN.players.Computer;
 import TPN.players.Player;
+import TPN.players.StockFishAI;
 import TPN.ui.Button;
 import TPN.ui.ImageLoader;
 
@@ -18,6 +18,9 @@ public class GameState extends State {
     private Player player2;
     private Computer computer;
     private Computer computer2;
+    private StockFishAI stockFishAI;
+    private StockFishAI stockFishAI2;
+
 
     private static int countMoves;
     private static int countHalfMoves;
@@ -39,13 +42,21 @@ public class GameState extends State {
         player2 = new Player(game, 75, false);
         computer = new Computer(game, 75, false);
         computer2 = new Computer(game, 125, true);
+        stockFishAI = new StockFishAI(game, 75, false);
+        stockFishAI2 = new StockFishAI(game, 125, true);
+
 //            src.main.java.TPN.AI = new Ai(this,125,true);
 
         Game.getPlayers().clear();
-        Game.getPlayers().add(player);
-        Game.getPlayers().add(computer);
+        Game.getPlayers().add(stockFishAI2);
+        Game.getPlayers().add(stockFishAI);
+        for (Player player : Game.getPlayers()) {
+            player.drawPieces();
+        }
 //        FENParser.printFENArray();
-        FENParser.printFENArrayValue();
+//        FENParser.printFENArrayValue();
+
+
     }
 
 

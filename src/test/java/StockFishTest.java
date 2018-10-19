@@ -1,4 +1,4 @@
-import src.main.java.TPN.StockFish;
+import TPN.StockFish;
 
 public class StockFishTest {
     public StockFishTest() {
@@ -17,7 +17,7 @@ public class StockFishTest {
         System.out.println(client.getOutput(0));
         System.out.println("Best move : " + client.getBestMove(FEN, 100));
         System.out.println("Legal moves : " + client.getLegalMoves(FEN));
-        System.out.println("src.main.java.TPN.Board state :");
+        System.out.println("Board state :");
         client.drawBoard(FEN);
         System.out.println("Evaluation score : " + client.getEvalScore(FEN, 2000));
         System.out.println("Stopping engine..");

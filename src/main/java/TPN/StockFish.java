@@ -1,4 +1,4 @@
-package src.main.java.TPN;
+package TPN;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,17 +7,17 @@ import java.io.OutputStreamWriter;
 
 public class StockFish {
 
-    private static final String PATH = "engine/stockfish.exe";
+    private static final String PATH = "C:/Users/twanb/Desktop/chess/src/main/resources/engine/stockfish.exe";
     private Process engineProcess;
     private BufferedReader processReader;
     private OutputStreamWriter processWriter;
-
+    private final int EXTRAWAITTIME = 100;
     public StockFish() {
     }
 
     public boolean startEngine() {
         try {
-            this.engineProcess = Runtime.getRuntime().exec("engine/stockfish.exe");
+            this.engineProcess = Runtime.getRuntime().exec(PATH);
             this.processReader = new BufferedReader(new InputStreamReader(this.engineProcess.getInputStream()));
             this.processWriter = new OutputStreamWriter(this.engineProcess.getOutputStream());
             return true;
@@ -26,6 +26,10 @@ public class StockFish {
         }
     }
 
+    public void startNewGame() {
+        this.sendCommand("ucinewgame");
+
+    }
     public void sendCommand(String command) {
         try {
             this.processWriter.write(command + "\n");
@@ -58,10 +62,14 @@ public class StockFish {
         return buffer.toString();
     }
 
+
     public String getBestMove(String fen, int waitTime) {
         this.sendCommand("position fen " + fen);
         this.sendCommand("go movetime " + waitTime);
-        return this.getOutput(waitTime + 20).split("bestmove ")[1].split(" ")[0];
+        String output = this.getOutput(waitTime + EXTRAWAITTIME);
+        System.out.println(output.split("bestmove ")[1].split(" ")[0]);
+//        System.out.println(this.getOutput(waitTime));
+        return output.split("bestmove ")[1].split(" ")[0];
     }
 
     public void stopEngine() {
@@ -70,7 +78,7 @@ public class StockFish {
             this.processReader.close();
             this.processWriter.close();
         } catch (IOException var2) {
-            ;
+
         }
 
     }

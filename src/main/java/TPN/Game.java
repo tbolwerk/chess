@@ -3,6 +3,7 @@ package TPN;
 import TPN.board.Board;
 import TPN.board.Box;
 import TPN.moves.FENParser;
+import TPN.moves.MoveParser;
 import TPN.pieces.King;
 import TPN.pieces.Pawn;
 import TPN.pieces.Piece;
@@ -220,11 +221,17 @@ public class Game extends PApplet {
                     GameState.setHalfCountMoves(0);
                 }
 
-                startBox.getPiece().setBoxId(newBoxId);
                 startBox.getPiece().countingMovement();
-                clickedBoxes.get(1).setPiece(startBox.getPiece());
-                System.out.println(clickedBoxes.get(1).toString());
+                startBox.getPiece().setBoxId(newBoxId);
+                endBox.setPiece(startBox.getPiece());
                 startBox.unSetPiece();
+
+                MoveParser.setEndpos(endBox.toString());
+                MoveParser.setStartpos(startBox.toString());
+
+
+//                System.out.println(endBox.toString());
+
                 checksGameStateAfterTurn();
                 endTurn();
                 GameState.setCountMoves(1);
