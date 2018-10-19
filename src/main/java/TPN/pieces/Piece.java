@@ -33,6 +33,10 @@ public abstract class Piece {
 
     }
 
+    public int getCountMovement() {
+        return countMovement;
+    }
+
     public void removePiece() {
         getBox().unSetPiece();
     }

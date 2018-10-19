@@ -8,7 +8,7 @@ import processing.core.PImage;
 
 public class Pawn extends Piece {
     private int y;
-
+    private String EnPassant = null;
 
     public Pawn(Game game, Player player, boolean isWhite, int boxId) {
         super(game, player, isWhite, boxId);
@@ -60,8 +60,12 @@ public class Pawn extends Piece {
 
 
         } else if (endBox.getPiece() == null && yDif == 2 && countMovement == 0 && xDif == 0) {
+
             //checks for pieces in path
             for (Box box : game.getGameState().getBoard().straightPath(startBox, endBox)) {
+                if (!box.equals(startBox) || !box.equals(endBox)) {
+                    EnPassant = box.toString();
+                }
                 if (box.getPiece() != null) {
                     return false;
                 }
@@ -97,5 +101,9 @@ public class Pawn extends Piece {
     @Override
     public String toString() {
         return "Pawn";
+    }
+
+    public String getEnPassant() {
+        return EnPassant;
     }
 }

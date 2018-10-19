@@ -19,6 +19,9 @@ public class GameState extends State {
     private Computer computer;
     private Computer computer2;
 
+    private static int countMoves;
+    private static int countHalfMoves;
+
 
     public GameState(Game game) {
         super(game);
@@ -30,7 +33,7 @@ public class GameState extends State {
         Board.getGrid().clear();
         board = new Board(game);
         board.initGrid();
-
+        countMoves = 0;
         imageLoader = new ImageLoader(game, "pieces/chess_pieces.png");
         player = new Player(game, 125, true);
         player2 = new Player(game, 75, false);
@@ -58,6 +61,23 @@ public class GameState extends State {
                 }
             }
         }
+    }
+
+    public static void setHalfCountMoves(int counter) {
+        countHalfMoves = counter;
+    }
+
+    public static void setCountMoves(int counter) {
+
+        countMoves = countMoves + counter;
+    }
+
+    public static int getCountHalfMoves() {
+        return countHalfMoves;
+    }
+
+    public static int getCountMoves() {
+        return countMoves;
     }
 
     @Override

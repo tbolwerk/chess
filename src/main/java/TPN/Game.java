@@ -4,6 +4,7 @@ import TPN.board.Board;
 import TPN.board.Box;
 import TPN.moves.FENParser;
 import TPN.pieces.King;
+import TPN.pieces.Pawn;
 import TPN.pieces.Piece;
 import TPN.players.Player;
 import TPN.states.GameOverState;
@@ -200,10 +201,23 @@ public class Game extends PApplet {
 
             if (startBox.getPiece().validateMove(startBox, endBox)) {//checks if starting box has piece in it and if it makes a validmove
 
+                GameState.setHalfCountMoves(GameState.getCountHalfMoves() + 1);
+                if (startBox.getPiece() instanceof Pawn) {
+                    if (endBox.getFENNotationRow() == 5 && startBox.getPiece().getCountMovement() == 0 || endBox.getFENNotationRow() == 4 && startBox.getPiece().getCountMovement() == 0) {
+                        FENParser.setEnPassantFENPosistion(" " + ((Pawn) startBox.getPiece()).getEnPassant());
+                    } else {
+                        FENParser.setEnPassantFENPosistion(" -");
 
+                    }
+                    GameState.setHalfCountMoves(0);
+                } else {
+                    FENParser.setEnPassantFENPosistion(" -");
+
+                }
                 if (endBox.getPiece() != null && startBox.getPiece().checkForCapture()) {//checks if endpoint has a piece in it + capture
                     removePiece();
                     endBox.unSetPiece();
+                    GameState.setHalfCountMoves(0);
                 }
 
                 startBox.getPiece().setBoxId(newBoxId);
@@ -212,9 +226,10 @@ public class Game extends PApplet {
                 System.out.println(clickedBoxes.get(1).toString());
                 startBox.unSetPiece();
                 checksGameStateAfterTurn();
-                FENParser.printFENArrayValue();
                 endTurn();
+                GameState.setCountMoves(1);
 
+                FENParser.printFENArrayValue();
 
             }
 
