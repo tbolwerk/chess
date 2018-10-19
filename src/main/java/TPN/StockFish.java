@@ -9,7 +9,7 @@ import java.io.OutputStreamWriter;
 
 public class StockFish {
 
-    private static final String PATH =Main.getStockfish();
+    private static final String PATH = Main.getStockfish();
     private Process engineProcess;
     private BufferedReader processReader;
     private OutputStreamWriter processWriter;
