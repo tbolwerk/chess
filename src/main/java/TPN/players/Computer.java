@@ -133,6 +133,6 @@ public class Computer extends Player implements AI {
 
     @Override
     public String toString() {
-        return "Computer";
+        return colorPlayer() + "Computer";
     }
 }

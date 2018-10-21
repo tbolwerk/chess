@@ -69,7 +69,7 @@ public class StockFish {
         this.sendCommand("position fen " + fen);
         this.sendCommand("go movetime " + waitTime);
         String output = this.getOutput(waitTime + EXTRAWAITTIME);
-        System.out.println(output);
+//        System.out.println(output);
         if(!output.contains("bestmove ")){
             return null;
         }
@@ -115,13 +115,15 @@ public class StockFish {
         this.sendCommand("go movetime " + waitTime);
         float evalScore = 0.0F;
         String[] dump = this.getOutput(waitTime + 20).split("\n");
-
-        for (int i = dump.length - 1; i >= 0; --i) {
-            if (dump[i].startsWith("info depth ")) {
-                evalScore = Float.parseFloat(dump[i].split("score cp ")[1].split(" nodes")[0]);
+        try {
+            for (int i = dump.length - 1; i >= 0; --i) {
+                if (dump[i].startsWith("info depth ")) {
+                    evalScore = Float.parseFloat(dump[i].split("score cp ")[1].split(" nodes")[0]);
+                }
             }
+        } catch (Exception e) {
+            return 0;
         }
-
         return evalScore / 100.0F;
     }
 }

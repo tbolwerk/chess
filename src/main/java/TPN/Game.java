@@ -193,7 +193,7 @@ public class Game extends PApplet {
         }
     }
 
-    public Player getOpponent(Player ownPlayer) {
+    public static Player getOpponent(Player ownPlayer) {
         for (Player player : getPlayers()) {
             if (!ownPlayer.equals(player)) {
                 return player;
@@ -215,7 +215,9 @@ public class Game extends PApplet {
 
         if (checkIsTurn(startBox.getPiece().getPlayer())) {
 
+
             if (startBox.getPiece().validateMove(startBox, endBox)) {//checks if starting box has piece in it and if it makes a validmove
+                System.out.println("Evaluation score of " + startBox.getPiece().getPlayer().toString() + ": " + startBox.getPiece().getPlayer().getStockFish().getEvalScore(MoveParser.getLastMove(), 100));
 
                 GameState.setHalfCountMoves(GameState.getCountHalfMoves() + 1);
                 if (startBox.getPiece() instanceof Pawn) {
@@ -251,7 +253,7 @@ public class Game extends PApplet {
                 endTurn();
                 GameState.setCountMoves(1);
 
-                FENParser.printFENArrayValue();
+//                FENParser.printFENArrayValue();
 
             }
 

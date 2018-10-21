@@ -1,6 +1,7 @@
 package TPN.players;
 
 import TPN.Game;
+import TPN.StockFish;
 import TPN.board.Board;
 import TPN.board.Box;
 import TPN.moves.MoveParser;
@@ -18,6 +19,7 @@ public class Player {
     private String playerName;
     private boolean isTurn;
     private boolean hasLost = false;
+    protected StockFish stockFish;
 
 
     public Player(Game game, int color, boolean isWhite) {
@@ -34,8 +36,18 @@ public class Player {
             this.isWhite = false;
             this.isTurn = false;
         }
+        stockFish = new StockFish();
+        initStockFish();
 
+    }
 
+    public StockFish getStockFish() {
+        return stockFish;
+    }
+
+    private void initStockFish() {
+        this.stockFish.startEngine();
+        this.stockFish.sendCommand("uci");
     }
 
     public void initPieces() {
@@ -187,7 +199,7 @@ public class Player {
 
     @Override
     public String toString() {
-        return "Human player";
+        return colorPlayer() + "Human player";
     }
 
     public boolean isHasLost() {
@@ -196,6 +208,13 @@ public class Player {
 
     public void setHasLost(boolean hasLost) {
         this.hasLost = hasLost;
+    }
+
+    protected String colorPlayer() {
+        if (isBlack) {
+            return "Black ";
+        } else
+            return "White ";
     }
 
 }

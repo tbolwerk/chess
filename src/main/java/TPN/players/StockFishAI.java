@@ -1,7 +1,6 @@
 package TPN.players;
 
 import TPN.Game;
-import TPN.StockFish;
 import TPN.board.Board;
 import TPN.board.Box;
 import TPN.states.GameState;
@@ -9,19 +8,11 @@ import TPN.states.GameState;
 import java.util.ArrayList;
 
 public class StockFishAI extends Player implements AI {
-    StockFish stockFish;
-
     public StockFishAI(Game game, int color, boolean isWhite) {
         super(game, color, isWhite);
-        this.stockFish = new StockFish();
-        initStockFish();
-        this.stockFish.startNewGame();
     }
 
-    private void initStockFish() {
-        this.stockFish.startEngine();
-        this.stockFish.sendCommand("uci");
-    }
+
 
     private ArrayList<Box> FenConverter(String FENPosition) {
         StringBuilder startpos = new StringBuilder();
@@ -83,10 +74,10 @@ public class StockFishAI extends Player implements AI {
             Box startbox = bestmoveSTOCKFISH.get(0);
             Box endBox = bestmoveSTOCKFISH.get(1);
             bestmoveSTOCKFISH.clear();
-            if (startbox.getPiece() != null) {
-                System.out.println(stockFish.getBestMove(game.getOpponent(this).getLastMoveInFenNotation(), 100));
-                stockFish.drawBoard(game.getOpponent(this).getLastMoveInFenNotation());
-            }
+//            if (startbox.getPiece() != null) {
+//                System.out.println(stockFish.getBestMove(game.getOpponent(this).getLastMoveInFenNotation(), 100));
+//                stockFish.drawBoard(game.getOpponent(this).getLastMoveInFenNotation());
+//            }
             game.getClickedBoxes().add(0, startbox);
             game.getClickedBoxes().add(1, endBox);
             game.mousePressed();
@@ -103,6 +94,6 @@ public class StockFishAI extends Player implements AI {
 
     @Override
     public String toString() {
-        return "StockFish";
+        return colorPlayer() + "StockFish";
     }
 }

@@ -17,8 +17,11 @@ public class Board {
     private ArrayList<Box> optionalBoxes = new ArrayList<>();
     private Color color = WHITEBOX;
 
+    private ArrayList<Box> board;
+
     public Board(Game game) {
         this.game = game;
+        this.board = new ArrayList<Box>();
     }
 
     public static ArrayList<Box> getGrid() {
@@ -206,6 +209,20 @@ public class Board {
         return NROFBOX;
     }
 
+    @SuppressWarnings("Duplicates")
+    public void initBoard() {
+        for (int row = 0; row < NROFBOX; row++) {
+            switchColor();
+            for (int col = 0; col < NROFBOX; col++) {
+                switchColor();
+                board.add(new Box(game, boxId, row, col, color));
+                boxId++;
+
+            }
+        }
+    }
+
+    @SuppressWarnings("Duplicates")
     public void initGrid() {
         for (int row = 0; row < NROFBOX; row++) {
             switchColor();
@@ -216,5 +233,32 @@ public class Board {
 
             }
         }
+    }
+
+    public static boolean checkBoardState(Box startBox, Box endBox) {
+        //TODO:make it working
+        ArrayList<Box> board = new ArrayList<>();
+        board = getGrid();
+        for (Box box : board) {
+            if (box.equals(startBox)) {
+                box.unSetPiece();
+            } else if (box.equals(endBox)) {
+                if (box.getPiece() != null && endBox.getPiece().getIsWhite() != box.getPiece().getIsWhite()) {
+                    box.unSetPiece();
+                    box.setPiece(startBox.getPiece());
+                }
+                box.setPiece(startBox.getPiece());
+            }
+
+
+        }
+        for (Box box : board) {
+            if (box.getPiece().getPlayer().getKing().isCheck(box.getPiece().getPlayer().getKing().getBox())) {
+
+                return false;
+            }
+
+        }
+        return true;
     }
 }
