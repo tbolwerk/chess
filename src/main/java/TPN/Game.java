@@ -3,33 +3,43 @@ package TPN;
 import TPN.board.Board;
 import TPN.board.Box;
 import TPN.moves.FENParser;
+import TPN.moves.Move;
 import TPN.moves.MoveParser;
 import TPN.pieces.King;
 import TPN.pieces.Pawn;
 import TPN.pieces.Piece;
+import TPN.players.Computer;
 import TPN.players.Player;
-import TPN.states.GameOverState;
-import TPN.states.GameState;
-import TPN.states.MenuState;
-import TPN.states.State;
+import TPN.players.StockFishAI;
+import TPN.states.*;
+import TPN.ui.Button;
 import TPN.ui.Main;
 import processing.core.PApplet;
+import processing.core.PImage;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 
-public class Game extends PApplet {
-    final private static float GAMEWIDTH = 700;
+public class Game extends PApplet{
+    final private static float GAMEWIDTH = 600;
     final private static float GAMEHEIGHT = GAMEWIDTH;
 
     private static ArrayList<Player> players = new ArrayList<Player>();
 
+    private static PImage background;
+    private static PImage settingsImage;
+
+    private static PImage stockFishWhite;
+    private static PImage stockFishBlack;
+    private static PImage humanWhite;
+    private static PImage humanBlack;
 
     private GameState gameState = new GameState(this);
     private GameOverState gameOverState = new GameOverState(this);
     private MenuState menuState = new MenuState(this);
+    private SettingsState settingsState = new SettingsState(this);
 
     private State state;
 
@@ -66,53 +76,61 @@ public class Game extends PApplet {
         return players;
     }
 
+    public static PImage getStockFishWhite() {
+        return stockFishWhite;
+    }
+
+    public static PImage getStockFishBlack() {
+        return stockFishBlack;
+    }
+
+    public static PImage getHumanBlack() {
+        return humanBlack;
+    }
+
+    public static PImage getHumanWhite() {
+        return humanWhite;
+    }
+
     public void settings() {
         size((int) GAMEWIDTH, (int) GAMEHEIGHT);
     }
 
 
     public void draw() {
-//        System.out.println(src.main.java.TPN.State.getCurrentState());
         State.getCurrentState().draw();
-
-
-//        System.out.println(src.main.java.TPN.State.getCurrentState().toString());
-
     }
 
 
+
     public void setup() {
-        background(244, 161, 66);
+        background = loadImage("background.jpeg");
+        background.resize((int)getGAMEWIDTH(),(int)getGAMEHEIGHT());
+        settingsImage = loadImage("settings.jpg");
+        settingsImage.resize((int)getGAMEWIDTH(),(int)getGAMEHEIGHT());
+        stockFishBlack = loadImage("stockfish_black.jpg");
+        stockFishWhite = loadImage("stockfish_white.jpg");
+        humanBlack = loadImage("human_black.png");
+        humanWhite = loadImage("human_white.png");
         frameRate(240);
         if (State.getCurrentState() == null) {
+
             State.setCurrentState(menuState);
-        }
-
-
-//        try {
-        try {
+            Game.getPlayers().clear();
+            Game.getPlayers().add(0, new Computer(this, 0, false));
+            Game.getPlayers().add(1, new Computer(this, 255, true));
             State.getCurrentState().setup();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
 
+        }
+    }
+    @Override
+    public void keyPressed(){
+        State.getCurrentState().keyPressed();
     }
 
     @Override
     public void mouseClicked() {
-        if(State.getCurrentState() == menuState){
-
-        }
-        if (State.getCurrentState().getButton() != null && State.getCurrentState().getButton().overRect()) {
-
-            State.setCurrentState(gameState);
-
-            setup();
-
-        }
+        State.getCurrentState().mouseClicked();
     }
 
 
@@ -123,34 +141,11 @@ public class Game extends PApplet {
     @Override
     public void mousePressed() {
 
-        if (getGameState() == gameState) {
-            for (Box box : Board.getGrid()) {
-                if (gameState.getBoard().boxSelected(box) && box.getPiece() != null) {
-                    box.setIsClicked(true);
-                    clickedBoxes.add(box);
-                } else if (clickedBoxes.size() > 0 && gameState.getBoard().boxSelected(box)) {
-                    box.setIsClicked(true);
-                    clickedBoxes.add(box);
-                }
-            }
-            if (clickedBoxes.size() == 1 && clickedBoxes.get(0).getPiece() != null) {
-                showOptions();
-            }
-
-            if (clickedBoxes.size() > 1) {
-                movePiece();
-//                if(clickedBoxes.get(0).getPiece() instanceof src.main.java.TPN.Pawn){
-//                    clickedBoxes.get(0).getPiece().getPlayer().promote();
-//                }
-                gameState.getBoard().setAllBoxesUnclicked();
-                clickedBoxes.clear();
-                gameState.getBoard().clearHighLightedOptionalBoxes();
-            }
-        }
+        State.getCurrentState().mousePressed();
 
     }
 
-    private void showOptions() {
+    public void showOptions() {
         Box startBox = clickedBoxes.get(0);
         if (startBox.getPiece() != null) {
             gameState.getBoard().setHighLightedOptionalBoxes(startBox);
@@ -166,7 +161,7 @@ public class Game extends PApplet {
 
     }
 
-    private void checksGameStateAfterTurn() {
+    public void checksGameStateAfterTurn() {
         int totalPieces = 0;
         for (Player player : Game.getPlayers()) {
             for (Piece piece : player.getPieces()) {
@@ -202,74 +197,27 @@ public class Game extends PApplet {
         return null;
     }
 
-    private void turnHandler() {
 
-    }
 
-    private void movePiece() {
+    public void movePiece() {
 
 
         Box startBox = clickedBoxes.get(0);
         Box endBox = clickedBoxes.get(1);
-        int newBoxId = endBox.getBoxId();
-
-        if (checkIsTurn(startBox.getPiece().getPlayer())) {
-
-
-            if (startBox.getPiece().validateMove(startBox, endBox)) {//checks if starting box has piece in it and if it makes a validmove
-                System.out.println("Evaluation score of " + startBox.getPiece().getPlayer().toString() + ": " + startBox.getPiece().getPlayer().getStockFish().getEvalScore(MoveParser.getLastMove(), 100));
-
-                GameState.setHalfCountMoves(GameState.getCountHalfMoves() + 1);
-                if (startBox.getPiece() instanceof Pawn) {
-                    if (endBox.getFENNotationRow() == 5 && startBox.getPiece().getCountMovement() == 0 || endBox.getFENNotationRow() == 4 && startBox.getPiece().getCountMovement() == 0) {
-                        FENParser.setEnPassantFENPosistion(" " + ((Pawn) startBox.getPiece()).getEnPassant());
-                    } else {
-                        FENParser.setEnPassantFENPosistion(" -");
-
-                    }
-                    GameState.setHalfCountMoves(0);
-                } else {
-                    FENParser.setEnPassantFENPosistion(" -");
-
-                }
-                if (endBox.getPiece() != null && startBox.getPiece().checkForCapture()) {//checks if endpoint has a piece in it + capture
-                    removePiece();
-                    endBox.unSetPiece();
-                    GameState.setHalfCountMoves(0);
-                }
-
-                startBox.getPiece().countingMovement();
-                startBox.getPiece().setBoxId(newBoxId);
-                endBox.setPiece(startBox.getPiece());
-                startBox.unSetPiece();
-
-                MoveParser.setEndpos(endBox.toString());
-                MoveParser.setStartpos(startBox.toString());
-
-
-//                System.out.println(endBox.toString());
-
-                checksGameStateAfterTurn();
-                endTurn();
-                GameState.setCountMoves(1);
-
-//                FENParser.printFENArrayValue();
-
-            }
-
-        }
+        Move move = new Move(this,startBox,endBox);
+        move.makeMove(startBox,endBox);
 
     }
 
 
-    private void endTurn() {
+    public void endTurn() {
 
         for (Player player : getPlayers()) {
             player.setTurn(!player.getIsTurn());
         }
     }
 
-    private boolean checkIsTurn(Player player) {
+    public boolean checkIsTurn(Player player) {
         return player.getIsTurn();
     }
 
@@ -319,5 +267,22 @@ public class Game extends PApplet {
 
     public GameState getGameState() {
         return gameState;
+    }
+
+    public static PImage getBackground() {
+        return background;
+    }
+
+    public static PImage getSettingsImage() {
+        return settingsImage;
+    }
+
+
+    public SettingsState getSettingsState() {
+        return settingsState;
+    }
+
+    public MenuState getMenuState() {
+        return menuState;
     }
 }

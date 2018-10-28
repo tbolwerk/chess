@@ -22,6 +22,8 @@ public class Player {
     protected StockFish stockFish;
 
 
+
+
     public Player(Game game, int color, boolean isWhite) {
         this.game = game;
         this.color = color;

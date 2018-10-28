@@ -54,6 +54,7 @@ public class StockFishAI extends Player implements AI {
 
         if (GameState.getCountMoves() == 0 && getIsWhite()) {
 //makes initial move if white
+
             bestmoveSTOCKFISH.add(0, Board.getGrid().get(46));
             bestmoveSTOCKFISH.add(0, Board.getGrid().get(54));
 //            System.out.println(bestmoveSTOCKFISH.get(0).toString());

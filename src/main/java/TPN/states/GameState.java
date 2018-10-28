@@ -2,6 +2,8 @@ package TPN.states;
 
 import TPN.Game;
 import TPN.board.Board;
+import TPN.board.Box;
+import TPN.moves.FENParser;
 import TPN.players.AI;
 import TPN.players.Computer;
 import TPN.players.Player;
@@ -14,12 +16,7 @@ public class GameState extends State {
     private ImageLoader imageLoader;
 
     //    private src.main.java.TPN.Board board;
-    private Player whitePlayer;
-    private Player blackPlayer;
-    private Computer blackComputer;
-    private Computer whiteComputer;
-    private StockFishAI blackStockFishAI;
-    private StockFishAI whiteStockFishAI;
+
 
 
     private static int countMoves;
@@ -38,18 +35,8 @@ public class GameState extends State {
         board.initGrid();
         countMoves = 0;
         imageLoader = new ImageLoader(game, "pieces/chess_pieces.png");
-        whitePlayer = new Player(game, 125, true);
-        blackPlayer = new Player(game, 75, false);
-        blackComputer = new Computer(game, 75, false);
-        whiteComputer = new Computer(game, 125, true);
-        blackStockFishAI = new StockFishAI(game, 75, false);
-        whiteStockFishAI = new StockFishAI(game, 125, true);
 
-//            src.main.java.TPN.AI = new Ai(this,125,true);
 
-        Game.getPlayers().clear();
-        Game.getPlayers().add(whiteStockFishAI);
-        Game.getPlayers().add(blackStockFishAI);
         for (Player player : Game.getPlayers()) {
             player.initPieces();
             player.drawPieces();
@@ -62,14 +49,15 @@ public class GameState extends State {
 
 
     public void draw() {
-        board.drawGrid();
+        if(board != null) {
+            board.drawGrid();
+            for (Player player : Game.getPlayers()) {
 
-        for (Player player : Game.getPlayers()) {
-
-            player.drawPieces();
-            if (player instanceof AI) {
-                if (player.getIsTurn()) {
-                    ((AI) player).makeMove();
+                player.drawPieces();
+                if (player instanceof AI) {
+                    if (player.getIsTurn()) {
+                        ((AI) player).makeMove();
+                    }
                 }
             }
         }
@@ -97,6 +85,21 @@ public class GameState extends State {
         return null;
     }
 
+    @Override
+    public Button getSelectWhitePlayerButton() {
+        return null;
+    }
+
+    @Override
+    public Button getSelectBlackPlayerButton() {
+        return null;
+    }
+
+    @Override
+    public Button getSettingsButton() {
+        return null;
+    }
+
 
     public Board getBoard() {
         return board;
@@ -109,5 +112,47 @@ public class GameState extends State {
     @Override
     public String toString() {
         return "GameState";
+    }
+
+    @Override
+    public void mouseClicked() {
+
+    }
+
+    @Override
+    public void mousePressed() {
+        for (Box box : Board.getGrid()) {
+            if (this.getBoard().boxSelected(box) && box.getPiece() != null) {
+                box.setIsClicked(true);
+                game.getClickedBoxes().add(box);
+            } else if (game.getClickedBoxes().size() > 0 && this.getBoard().boxSelected(box)) {
+                box.setIsClicked(true);
+                game.getClickedBoxes().add(box);
+            }
+        }
+        if (game.getClickedBoxes().size() == 1 && game.getClickedBoxes().get(0).getPiece() != null) {
+            game.showOptions();
+        }
+
+        if (game.getClickedBoxes().size() > 1) {
+            game.movePiece();
+//                if(clickedBoxes.get(0).getPiece() instanceof src.main.java.TPN.Pawn){
+//                    clickedBoxes.get(0).getPiece().getPlayer().promote();
+//                }
+            this.getBoard().setAllBoxesUnclicked();
+            game.getClickedBoxes().clear();
+            this.getBoard().clearHighLightedOptionalBoxes();
+        }
+    }
+
+    @Override
+    public void keyPressed() {
+        if(game.key == game.ESC)
+            game.key=0;
+        if (game.key == 0) {
+            State.setCurrentState(game.getMenuState());
+            Game.getPlayers().clear();
+            game.getMenuState().setup();
+        }
     }
 }

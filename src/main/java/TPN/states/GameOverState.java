@@ -4,6 +4,8 @@ import TPN.Game;
 import TPN.players.Player;
 import TPN.ui.Button;
 
+import java.awt.*;
+
 public class GameOverState extends State {
 
 
@@ -44,9 +46,9 @@ public class GameOverState extends State {
         button = new Button(game, (int) Game.getGAMEWIDTH() / 2 - ((int) (Game.getGAMEWIDTH() / 3) / 2), (int) Game.getGAMEHEIGHT() / 2, (int) Game.getGAMEHEIGHT() / 3, 30);
 
 
-        button.setColor(100);
-        button.setTextColor(120);
-        button.setSelectColor(123);
+        button.setColor(new Color(100,100,100));
+        button.setTextColor(new Color(0,0,0));
+        button.setSelectColor(new Color(0,25,10));
         button.setText("New Game");
     }
 
@@ -68,8 +70,38 @@ public class GameOverState extends State {
     }
 
     @Override
+    public Button getSelectWhitePlayerButton() {
+        return null;
+    }
+
+    @Override
+    public Button getSelectBlackPlayerButton() {
+        return null;
+    }
+
+    @Override
+    public Button getSettingsButton() {
+        return null;
+    }
+
+    @Override
     public String toString() {
         return "GameOverState";
+    }
+
+    @Override
+    public void mouseClicked() {
+
+    }
+
+    @Override
+    public void mousePressed() {
+
+    }
+
+    @Override
+    public void keyPressed() {
+
     }
 
 

@@ -206,7 +206,7 @@ public abstract class Piece {
                     posibleMoves.add(box);
                 }
 
-            } else if (this.validateMove(this.getBox(), box)) {
+            } else if (this.validateMove(this.getBox(), box) && this.validPath(this.getBox(),box)) {
                 posibleMoves.add(box);
             }
 

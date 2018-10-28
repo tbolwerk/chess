@@ -4,6 +4,7 @@ package TPN.moves;
 import TPN.Game;
 import TPN.board.Board;
 import TPN.board.Box;
+import TPN.players.Player;
 import TPN.states.GameState;
 
 public class FENParser {
@@ -146,11 +147,17 @@ public class FENParser {
         StringBuilder myString = new StringBuilder();
         myString.append(extractor());
         if (Game.getPlayers().size() > 0) {
-            if (Game.getPlayers().get(0).getIsTurn() && Game.getPlayers().get(0).getIsWhite()) {
-                myString.append(" w");
-            } else {
-                myString.append(" b");
+            for (Player player:Game.getPlayers()) {
+               if(player.getIsTurn()) {
+                   if (player.getIsWhite()) {
+                       myString.append(" w");
+                   } else {
+                       myString.append(" b");
+                   }
+               }
             }
+
+
         }
         return myString.toString();
     }
